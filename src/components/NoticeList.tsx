@@ -25,7 +25,7 @@ function formatDate(iso?: string) {
   }
 }
 
-export default async function NoticeList({ appSlug, locale }: { appSlug?: string; locale?: "en" | "de" | "fr" }) {
+export default async function NoticeList({ appSlug, locale }: { appSlug?: string; locale?: "en" | "de" | "fr" | "fr" }) {
   const notices: Notice[] = await sanityClient.fetch(noticesQuery, {
     appSlug: appSlug ?? null,
   });

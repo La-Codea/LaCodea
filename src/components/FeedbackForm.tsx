@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 type Props = {
-  locale?: "en" | "de";
+  locale?: "en" | "de" | "fr";
   app?: string | null;
 };
 
