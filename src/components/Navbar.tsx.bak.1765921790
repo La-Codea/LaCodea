@@ -1,0 +1,61 @@
+import Link from "next/link";
+import ThemeToggle from "@/components/ThemeToggle";
+import LanguageToggle from "@/components/LanguageToggle";
+import MobileMenu from "@/components/MobileMenu";
+import { getRequestLocale, withLocale } from "@/lib/locale";
+import { t } from "@/i18n";
+
+export default async function Navbar() {
+  const locale = await getRequestLocale();
+
+  const nav = [
+    { href: "/", label: t(locale, "nav.home") },
+    { href: "/apps", label: t(locale, "nav.apps") },
+    { href: "/announcements", label: t(locale, "nav.announcements") },
+    { href: "/support", label: t(locale, "nav.support") },
+    { href: "/feedback", label: t(locale, "nav.feedback") },
+    { href: "/contact", label: t(locale, "nav.contact") },
+  ].map((n) => ({ ...n, href: withLocale(n.href, locale) }));
+
+  return (
+    <header className="fixed navbar-glass inset-x-0 top-0 z-50">
+      <div className="navbar-glass">
+        <div className="container flex items-center justify-between py-0 ">
+          {/* Brand */}
+          <Link href={withLocale("/", locale)} className="flex items-center gap-3">
+            <span className="h-9 w-9 rounded-2xl bg-black shadow-sm dark:bg-white" />
+            <span className="text-base font-semibold tracking-tight md:text-lg">LaCodea</span>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-2 md:flex">
+            {nav.map((item) => (
+              <Link key={item.href} href={item.href} className="nav-pill">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right actions */}
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+
+            {/* CTA Desktop */}
+            <Link
+              href={withLocale("/apps", locale)}
+              className="hidden btn btn-primary md:inline-flex"
+            >
+              {t(locale, "cta.exploreApps")}
+            </Link>
+
+            {/* Mobile */}
+            <div className="md:hidden">
+              <MobileMenu nav={nav} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}

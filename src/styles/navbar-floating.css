@@ -1,0 +1,77 @@
+/* Floating glass navbar */
+.navbar-shell {
+  position: fixed;
+  top: 14px;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.navbar-floating {
+  pointer-events: auto;
+  margin: 0 auto;
+  width: min(1120px, calc(100vw - 24px));
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.10),
+    0 1px 0 rgba(255,255,255,0.55) inset;
+}
+
+.dark .navbar-floating {
+  background: rgba(12,12,14,0.74);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.55),
+    0 1px 0 rgba(255,255,255,0.08) inset;
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px; /* macht sie größer */
+}
+
+@media (min-width: 768px) {
+  .navbar-inner { padding: 18px 22px; }
+}
+
+.navbar-links {
+  display: none;
+  gap: 18px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .navbar-links { display: flex; }
+}
+
+.navlink {
+  text-decoration: none !important;
+  font-size: 14px;
+  opacity: 0.85;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.navlink:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Seite nach unten schieben, damit nichts unter der fixed navbar hängt */
+body { padding-top: 92px; }
+@media (min-width: 768px) { body { padding-top: 108px; } }

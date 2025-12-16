@@ -1,0 +1,36 @@
+import en from "@/lib/messages/en";
+import de from "@/lib/messages/de";
+import fr from "@/lib/messages/fr";
+import { cookies, headers } from "next/headers";
+
+export type Locale = "en" | "de" | "fr";
+export const SUPPORTED_LOCALES: Locale[] = ["en", "de", "fr"];
+
+const MESSAGES: Record<Locale, Record<string, string>> = {
+  en: en as any,
+  de: de as any,
+  fr: fr as any,
+};
+
+function normalizeLocale(v: unknown): Locale {
+  const s = String(v || "").toLowerCase();
+  return (s === "de" || s === "fr" || s === "en") ? (s as Locale) : "en";
+}
+
+// Next 16: cookies()/headers() können Promises sein -> await
+export async function getLocale(): Promise<Locale> {
+  const c: any = await cookies();
+  const h: any = await headers();
+
+  const fromCookie = c?.get?.("lacodea_locale")?.value;
+  const fromHeader = h?.get?.("x-locale");
+
+  return normalizeLocale(fromCookie || fromHeader);
+}
+
+export async function getT() {
+  const locale = await getLocale();
+  const dict = MESSAGES[locale] ?? MESSAGES.en;
+
+  return (key: string) => dict[key] ?? MESSAGES.en[key] ?? key;
+}
