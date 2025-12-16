@@ -1,9 +1,10 @@
+import type { Locale } from "@/lib/i18n/shared";
 "use client";
 
 import { useState } from "react";
 
 type Props = {
-  locale?: "en" | "de" | "fr";
+  locale?: Locale;
   app?: string | null;
 };
 

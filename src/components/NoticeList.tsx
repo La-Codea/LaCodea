@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n/shared";
 import { sanityClient } from "@/lib/sanity";
 import { noticesQuery } from "@/lib/queries";
 
@@ -25,7 +26,7 @@ function formatDate(iso?: string) {
   }
 }
 
-export default async function NoticeList({ appSlug, locale }: { appSlug?: string; locale?: "en" | "de" | "fr" | "fr" }) {
+export default async function NoticeList({ appSlug, locale }: { appSlug?: string; locale?: Locale | "fr" }) {
   const notices: Notice[] = await sanityClient.fetch(noticesQuery, {
     appSlug: appSlug ?? null,
   });
