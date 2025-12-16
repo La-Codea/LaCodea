@@ -1,4 +1,4 @@
-import { getT } from "@/lib/i18n/server";
+import { getT } from "@/i18n/server";
 import Link from "next/link";
 import { getAppCount } from "@/lib/getAppCount";
 import { getSupportedLocaleCount } from "@/lib/getSupportedLocaleCount";
@@ -13,7 +13,8 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 export default async function Page() {
-  const t = await getT();
+    const __i18n = await getT();
+  const t = typeof __i18n === "function" ? __i18n : __i18n.t;
   const appCount = await getAppCount();
   const langCount = await getSupportedLocaleCount();
 

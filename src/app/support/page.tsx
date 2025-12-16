@@ -3,7 +3,8 @@ import SupportForm from "@/components/SupportForm";
 import FaqList from "@/components/FaqList";
 
 export default async function SupportPage() {
-  const t = await getT();
+    const __i18n = await getT();
+  const t = typeof __i18n === "function" ? __i18n : __i18n.t;
   return (
     <main className="container py-12">
       <h1 className="text-3xl font-semibold">{t("pages.support.title")}</h1>

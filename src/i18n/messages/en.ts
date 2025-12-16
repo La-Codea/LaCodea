@@ -52,4 +52,11 @@ export default {
       subtitle: "Legal notice for LaCodea.",
     },
   },
-};
+  "pages.home.title": "Simple, useful iOS apps — built by LaCodea.",
+  "pages.home.subtitle": "We create focused tools with clean design. Privacy-first by default. No accounts needed.",
+  "pages.home.statsApps": "Apps",
+  "pages.home.statsLanguages": "Languages",
+  "nav.apps": "Apps",
+  "nav.announcements": "Announcements",
+  "nav.support": "Support",
+}

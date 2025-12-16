@@ -52,4 +52,11 @@ export default {
       subtitle: "Rechtliche Angaben zu LaCodea.",
     },
   },
-};
+  "pages.home.title": "Einfache, nützliche iOS Apps — von LaCodea gebaut.",
+  "pages.home.subtitle": "Fokussierte Tools mit klarem Design. Privacy-first. Keine Accounts nötig.",
+  "pages.home.statsApps": "Apps",
+  "pages.home.statsLanguages": "Sprachen",
+  "nav.apps": "Apps",
+  "nav.announcements": "Mitteilungen",
+  "nav.support": "Support",
+}

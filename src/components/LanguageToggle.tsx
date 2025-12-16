@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { getLocaleFromPath, switchLocale } from "@/lib/i18n/client";
+import { getLocaleFromPath, switchLocale } from "@/i18n/client";
 
 type Locale = "en" | "de" | "fr";
 

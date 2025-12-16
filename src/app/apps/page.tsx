@@ -3,7 +3,8 @@ import { getT } from "@/i18n/server";
 import { getApps } from "@/lib/getApps";
 
 export default async function AppsPage() {
-  const t = await getT();
+    const __i18n = await getT();
+  const t = typeof __i18n === "function" ? __i18n : __i18n.t;
   const apps = await getApps();
 
   return (
