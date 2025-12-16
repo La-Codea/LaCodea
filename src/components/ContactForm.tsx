@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 type Props = {
-  locale?: "en" | "de";
+  locale?: "en" | "de" | "fr";
 };
 
 export default function ContactForm({ locale = "en" }: Props) {
