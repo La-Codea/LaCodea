@@ -25,14 +25,14 @@ function formatDate(iso?: string) {
   }
 }
 
-export default async function NoticeList({ appSlug }: { appSlug?: string }) {
+export default async function NoticeList({ appSlug, locale }: { appSlug?: string; locale?: "en" | "de" | "fr" }) {
   const notices: Notice[] = await sanityClient.fetch(noticesQuery, {
     appSlug: appSlug ?? null,
   });
 
   return (
     <div className="grid gap-4">
-      {notices.map((n) => (
+      {filteredNotices.map((n) => (
         <article key={n._id} className="card p-6">
           <div className="muted text-sm flex flex-wrap items-center gap-2">
             {n.publishedAt ? <span>{formatDate(n.publishedAt)}</span> : null}
@@ -57,7 +57,7 @@ export default async function NoticeList({ appSlug }: { appSlug?: string }) {
         </article>
       ))}
 
-      {notices.length === 0 ? (
+      {filteredNotices.length === 0 ? (
         <p className="muted">No notices yet.</p>
       ) : null}
     </div>
