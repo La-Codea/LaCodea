@@ -1,4 +1,4 @@
-import NoticeList from "@/components/NoticeList";
+import NoticeList from "@/components/AnnouncementList";
 import { t, type Locale } from "@/i18n";
 
 export default async function AnnouncementsPage({ locale }: { locale: Locale }) {

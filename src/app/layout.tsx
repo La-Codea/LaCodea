@@ -1,16 +1,15 @@
 import "@/styles/globals.css";
+import "@/styles/navbar.css";
+import "@/styles/footer.css";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="pt-28 md:pt-32 pt-28 md:pt-32">
+      <body>
         <ThemeProvider>
           <Navbar />
           <main className="pt-10 md:pt-14">{children}</main>

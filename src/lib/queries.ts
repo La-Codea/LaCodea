@@ -8,8 +8,8 @@ export const appsQuery = `
   }
 `;
 
-export const noticesQuery = `
-  *[_type == "notice"] | order(publishedAt desc) {
+export const announcementsQuery = `
+  *[_type == "announcement"] | order(publishedAt desc) {
     _id,
     title,
     body,
@@ -24,8 +24,8 @@ export const noticesQuery = `
   }
 `;
 
-export const noticesForAppQuery = `
-  *[_type == "notice" && category.type == "app" && category.app->slug.current == $appSlug]
+export const announcementsForAppQuery = `
+  *[_type == "announcement" && category.type == "app" && category.app->slug.current == $appSlug]
   | order(publishedAt desc) {
     _id,
     title,

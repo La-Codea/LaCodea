@@ -1,0 +1,137 @@
+/* =========================
+   Footer
+========================= */
+
+.footer {
+  border-top: 1px solid rgb(var(--card-border));
+  background: rgb(var(--bg));
+}
+
+.footer-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-logo {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border: 1px solid rgb(var(--card-border));
+  background: rgb(var(--card));
+  box-shadow: var(--shadow);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.footer-tagline {
+  margin-top: 0.75rem;
+  max-width: 22rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.footer-socials {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.footer-social {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(var(--card-border));
+  background: rgb(var(--card));
+  box-shadow: var(--shadow);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.footer-social:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+}
+
+.footer-title {
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--muted));
+}
+
+.footer-links {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgb(var(--card-border));
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Subtle reveal animation */
+.footer-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 650ms ease, transform 650ms ease;
+  will-change: opacity, transform;
+}
+
+.footer-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Optional: extra space above footer + padding */
+.footer {
+  margin-top: 8rem;
+}
+@media (min-width: 768px) {
+  .footer {
+    margin-top: 10rem;
+  }
+}
+
+.footer-inner {
+  padding: 4rem 0;
+}
