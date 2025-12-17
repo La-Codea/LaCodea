@@ -1,7 +1,7 @@
 // src/components/AnnouncementList.tsx
 import { sanityClient } from "@/lib/sanityClient";
 import { announcementsQuery, announcementsForAppQuery } from "@/lib/queries";
-import type { Locale } from "@/i18n/shared";
+import type { Locale } from "@/i18n";
 
 type LocalizedString = Partial<Record<Locale, string>>;
 
