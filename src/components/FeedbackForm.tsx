@@ -6,6 +6,7 @@ import { useState } from "react";
 type Props = {
   locale?: Locale;
   app?: string | null;
+  defaultApp?: string;
 };
 
 const CATEGORIES = {
@@ -107,7 +108,7 @@ export default function FeedbackForm({ locale = "en", app }: Props) {
           onChange={(e) => setCategory(e.target.value)}
           className="w-full rounded-xl border px-3 py-2 bg-transparent"
         >
-          {CATEGORIES[locale].map((c) => (
+          {CATEGORIES[locale === "de" ? "de" : "en"].map((c) => (
             <option key={c.value} value={c.value}>
               {c.label}
             </option>

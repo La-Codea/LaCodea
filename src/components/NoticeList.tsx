@@ -31,6 +31,9 @@ export default async function NoticeList({ appSlug, locale }: { appSlug?: string
     appSlug: appSlug ?? null,
   });
 
+  const filteredNotices = notices;
+
+
   return (
     <div className="grid gap-4">
       {filteredNotices.map((n) => (

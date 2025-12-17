@@ -1,29 +1,31 @@
-type FAQ = {
-  _id: string;
-  question: string;
-  answerText: string;
+import { t, type Locale } from "@/i18n";
+
+export type FAQ = { q: string; a: string };
+
+type Props = {
+  locale?: Locale;
+  faqs?: FAQ[];
 };
 
-export default function FaqList({ faqs }: { faqs: FAQ[] }) {
-  if (!faqs || faqs.length === 0) {
-    return (
-      <div className="rounded-2xl border p-5 opacity-80">
-        No FAQ entries yet.
-      </div>
-    );
-  }
+function defaultFaqs(locale: Locale): FAQ[] {
+  // Wenn Keys fehlen, zeigt t() den Key selbst -> build bleibt trotzdem sauber.
+  return [
+    { q: t(locale, "pages.support.faq.q1"), a: t(locale, "pages.support.faq.a1") },
+    { q: t(locale, "pages.support.faq.q2"), a: t(locale, "pages.support.faq.a2") },
+    { q: t(locale, "pages.support.faq.q3"), a: t(locale, "pages.support.faq.a3") },
+  ];
+}
+
+export default function FaqList({ locale = "en", faqs }: Props) {
+  const items = faqs?.length ? faqs : defaultFaqs(locale);
 
   return (
-    <div className="space-y-3">
-      {faqs.map((f) => (
-        <details key={f._id} className="rounded-2xl border p-5">
-          <summary className="cursor-pointer font-semibold">
-            {f.question}
-          </summary>
-          <p className="mt-3 opacity-80 whitespace-pre-wrap">
-            {f.answerText}
-          </p>
-        </details>
+    <div className="grid gap-3">
+      {items.map((it, idx) => (
+        <div key={idx} className="card p-5">
+          <div className="font-semibold">{it.q}</div>
+          <div className="muted mt-2">{it.a}</div>
+        </div>
       ))}
     </div>
   );

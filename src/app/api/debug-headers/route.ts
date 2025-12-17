@@ -3,6 +3,6 @@ import { cookies } from "next/headers";
 
 export async function GET() {
   return NextResponse.json({
-    lacodea_app: cookies().get("lacodea_app")?.value ?? null,
+    lacodea_app: (await cookies()).get("lacodea_app")?.value ?? null,
   });
 }

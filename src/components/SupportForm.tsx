@@ -1,29 +1,42 @@
 "use client";
 
-import type { Locale } from "@/lib/i18n/shared";
+import type { Locale } from "@/i18n";
 import { useState } from "react";
 
 type Props = {
-  locale?: Locale;
-  app: string;
+  app?: string;
+locale?: Locale;
+  
+  defaultApp?: string;
 };
 
-const PROBLEMS = {
+const PROBLEMS: Record<Locale, { value: string; label: string }[]> = {
   en: [
     { value: "crash", label: "App crashes" },
     { value: "bug", label: "Bug / unexpected behavior" },
-    { value: "sync", label: "Sync problem" },
-    { value: "purchase", label: "Purchase / subscription" },
+    { value: "feature", label: "Feature request" },
+    { value: "purchase", label: "Purchase / App Store issue" },
+    { value: "privacy", label: "Privacy question" },
     { value: "other", label: "Other problem" },
   ],
   de: [
     { value: "crash", label: "App stürzt ab" },
     { value: "bug", label: "Bug / unerwartetes Verhalten" },
-    { value: "sync", label: "Sync-Problem" },
-    { value: "purchase", label: "Kauf / Abo" },
-    { value: "other", label: "Sonstiges Problem" },
+    { value: "feature", label: "Feature-Wunsch" },
+    { value: "purchase", label: "Kauf / App-Store Problem" },
+    { value: "privacy", label: "Datenschutz-Frage" },
+    { value: "other", label: "Anderes Problem" },
+  ],
+  fr: [
+    { value: "crash", label: "L’app plante" },
+    { value: "bug", label: "Bug / comportement inattendu" },
+    { value: "feature", label: "Demande de fonctionnalité" },
+    { value: "purchase", label: "Achat / problème App Store" },
+    { value: "privacy", label: "Question de confidentialité" },
+    { value: "other", label: "Autre problème" },
   ],
 };
+
 
 export default function SupportForm({ locale = "en", app }: Props) {
   const [email, setEmail] = useState("");
