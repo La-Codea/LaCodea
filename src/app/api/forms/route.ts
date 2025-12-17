@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // --------------------
 // Validation Schema
 // --------------------
@@ -21,7 +18,17 @@ const schema = z.object({
 // POST /api/forms
 // --------------------
 export async function POST(req: Request) {
-  try {
+  
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return new Response(JSON.stringify({ ok: false, error: "Missing RESEND_API_KEY" }), {
+      status: 500,
+      headers: { "content-type": "application/json" },
+    });
+  }
+  const resend = new Resend(apiKey);
+
+try {
     const data = schema.parse(await req.json());
 
     const from = process.env.MAIL_FROM;
