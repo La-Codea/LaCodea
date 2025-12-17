@@ -1,6 +1,6 @@
-import type { Locale } from "@/lib/i18n/shared";
 "use client";
 
+import type { Locale } from "@/lib/i18n/shared";
 import { useState } from "react";
 
 type Props = {
