@@ -1,4 +1,4 @@
-import type { SiteConfig } from "@/site/types";
+import type { SiteConfig } from "@/site/config";
 
 export const hubConfig: SiteConfig = {
   key: "hub",
