@@ -1,29 +1,31 @@
 /* src/styles/navbar.css */
 
-/* ---------- Layout / floating container ---------- */
-.navbar-shell {
-  position: fixed;
-  top: 14px;
+/* ---------- Layout / sticky shell (flush to top) ---------- */
+.navbar-shell{
+  position: sticky;         /* bleibt oben, ohne "gap" */
+  top: 0;                   /* wirklich ganz oben */
   left: 0;
   right: 0;
   z-index: 60;
-  pointer-events: auto; /* wichtig: klickbar */
+  pointer-events: auto;
 }
 
-.navbar-pad {
-  padding-top: 1.75rem;   /* 28px */
-  padding-bottom: 1.75rem;
+/* Container padding (dein bestehender Look) */
+.navbar-pad{
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
 }
 
-@media (min-width: 768px) {
-  .navbar-pad {
-    padding-top: 2.25rem; /* 36px */
-    padding-bottom: 2.25rem;
+@media (min-width: 768px){
+  .navbar-pad{
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
   }
 }
 
 /* ---------- Glass card ---------- */
-.navbar-floating {
+/* (Falls du "floating card" nutzt, bleibt das hier kompatibel) */
+.navbar-floating{
   pointer-events: auto;
   margin: 0 auto;
   width: min(1120px, calc(100vw - 24px));
@@ -39,7 +41,7 @@
     0 1px 0 rgba(255,255,255,0.55) inset;
 }
 
-html.dark .navbar-floating {
+html.dark .navbar-floating{
   background: rgba(12,12,14,0.74);
   border: 1px solid rgba(255,255,255,0.10);
   box-shadow:
@@ -48,7 +50,7 @@ html.dark .navbar-floating {
 }
 
 /* ---------- Inner layout ---------- */
-.navbar-inner {
+.navbar-inner{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,19 +58,20 @@ html.dark .navbar-floating {
   padding: 16px 18px;
 }
 
-@media (min-width: 768px) {
-  .navbar-inner { padding: 18px 22px; }
+@media (min-width: 768px){
+  .navbar-inner{ padding: 18px 22px; }
 }
 
-/* Seite nach unten schieben, damit nichts unter der fixed navbar hängt */
-body { padding-top: 92px; }
-@media (min-width: 768px) { body { padding-top: 108px; } }
+/* WICHTIG:
+   Wenn du sticky statt fixed nutzt, brauchst du KEIN body padding-top mehr.
+   Sonst hast du unnötig großen Abstand oben. */
+body{ padding-top: 0 !important; }
 
 /* ---------- Links / pills ---------- */
 .nav-pill{
   display: inline-flex;
-  align-items:center;
-  justify-content:center;
+  align-items: center;
+  justify-content: center;
   padding: .55rem .85rem;
   border-radius: 999px;
   font-weight: 600;
@@ -89,7 +92,7 @@ body { padding-top: 92px; }
 }
 
 /* ---------- Language dropdown (popover) ---------- */
-.lang-dd { position: relative; }
+.lang-dd{ position: relative; }
 
 .lang-dd__btn{
   display: inline-flex;

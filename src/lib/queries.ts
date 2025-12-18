@@ -1,10 +1,14 @@
+// src/lib/queries.ts
 export const appsQuery = `
-  *[_type == "app"] | order(name asc) {
+  *[_type == "app"] | order(sortOrder asc, name asc) {
     _id,
     name,
     "slug": slug.current,
+    sortOrder,
+    description,
     shortDescription,
-    appStoreUrl
+    appStoreUrl,
+    icon
   }
 `;
 

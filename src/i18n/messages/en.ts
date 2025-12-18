@@ -85,6 +85,29 @@ const messages = {
   ------------------------ */
   "pages.imprint.title": "Imprint",
   "pages.imprint.subtitle": "Legal information about LaCodea",
+
+  /* -----------------------
+     Privacy SimpleTime
+  ------------------------ */
+  "privacy.simpletime.title": "Privacy Policy – SimpleTime",
+  "privacy.simpletime.intro": "This Privacy Policy explains how SimpleTime handles your data.",
+  "privacy.simpletime.section1.title": "Data Collection",
+  "privacy.simpletime.section1.body": "SimpleTime does not require an account and does not collect personal data by default.",
+  "privacy.simpletime.section2.title": "Contact",
+  "privacy.simpletime.section2.body": "If you have questions, contact us at simpletime@lacodea.com.",
+
+  /* -----------------------
+     Footer
+  ------------------------ */
+  "footer.tagline": "Simple, useful iOS apps — built by LaCodea.",
+  "footer.section.navigation": "Navigation",
+  "footer.section.legal": "Legal",
+  "footer.bottomline": "Built with care · Privacy-first",
+  "footer.social.whatsapp": "WhatsApp Channel",
+  "footer.social.x": "X",
+  
+  "nav.privacy": "Privacy",
+  "nav.imprint": "Imprint",
 } as const;
 
 export default messages;

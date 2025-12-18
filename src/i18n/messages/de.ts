@@ -85,6 +85,48 @@ const messages = {
   ------------------------ */
   "pages.imprint.title": "Impressum",
   "pages.imprint.subtitle": "Rechtliche Angaben zu LaCodea",
+
+
+    /* -----------------------
+     Footer
+  ------------------------ */
+  "footer.tagline": "Einfache, nützliche iOS Apps — gebaut von LaCodea.",
+  "footer.section.navigation": "Navigation",
+  "footer.section.legal": "Rechtliches",
+  "footer.bottomline": "Mit Sorgfalt gebaut · Datenschutz zuerst",
+  "footer.social.whatsapp": "WhatsApp Kanal",
+  "footer.social.x": "X",
+
+  "nav.privacy": "Datenschutz",
+  "nav.imprint": "Impressum",
+
+  /* -----------------------
+     Datenschutz SimpleTime
+  ------------------------ */
+  "privacy.simpletime.title": "Datenschutzerklärung – SimpleTime",
+  "privacy.simpletime.intro": "Diese Datenschutzerklärung erklärt, wie SimpleTime mit deinen Daten umgeht.",
+
+  "privacy.simpletime.section1.title": "1. Erhobene Daten",
+  "privacy.simpletime.section1.intro": "SimpleTime speichert ausschließlich folgende lokal generierte Inhalte auf deinem Gerät:",
+  "privacy.simpletime.section1.list": [
+    "Aufgaben und Kategorien",
+    "Zeit-Einträge",
+    "Notizen",
+    "App-Einstellungen"
+  ],
+  "privacy.simpletime.section1.outro": "Diese Daten werden von SimpleTime nicht an Server gesendet.",
+
+  "privacy.simpletime.section2.title": "2. iCloud-Speicherung",
+  "privacy.simpletime.section2.body": "Wenn iCloud aktiviert ist, werden deine Daten verschlüsselt in deinem persönlichen iCloud-Account gespeichert. Apple stellt die technische Infrastruktur bereit. SimpleTime erhält keinen Zugriff auf deine iCloud-Daten.",
+
+  "privacy.simpletime.section3.title": "3. Analyse- und Trackingdienste",
+  "privacy.simpletime.section3.body": "SimpleTime verwendet keine Analyse-Tools, kein Tracking und keine Werbung. Es werden keine Nutzungsprofile erstellt.",
+
+  "privacy.simpletime.section4.title": "4. Rechte der Nutzer",
+  "privacy.simpletime.section4.body": "Da SimpleTime keine personenbezogenen Daten erhebt oder verarbeitet, sind keine gesonderten Auskunfts- oder Löschanfragen erforderlich. Du kannst deine Daten jederzeit direkt in der App löschen.",
+
+  "privacy.simpletime.section5.title": "Kontakt",
+  "privacy.simpletime.section5.body": "Bei Fragen erreichst du uns unter simpletime@lacodea.com."
 } as const;
 
 export default messages;

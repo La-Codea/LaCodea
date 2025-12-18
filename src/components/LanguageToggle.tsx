@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getLocaleFromPath, switchLocale } from "@/i18n/client";
 
 type Locale = "en" | "de" | "fr";
@@ -12,14 +12,13 @@ const OPTIONS: { value: Locale; label: string }[] = [
   { value: "fr", label: "Français" },
 ];
 
-function setLocaleCookie(locale: Locale) {
-  // 1 Jahr, SameSite Lax, überall gültig
-  document.cookie = `lacodea_locale=${locale}; Path=/; Max-Age=31536000; SameSite=Lax`;
-}
+const SET_PARAM = "__setLocale";
 
 export default function LanguageToggle() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const locale = useMemo(() => getLocaleFromPath(pathname) as Locale, [pathname]);
 
   const [open, setOpen] = useState(false);
@@ -43,17 +42,22 @@ export default function LanguageToggle() {
   }, []);
 
   function choose(next: Locale) {
-    setOpen(false);
+    if (next === locale) {
+      setOpen(false);
+      return;
+    }
 
-    // ✅ wichtig: Cookie sofort setzen, damit RSC/Server sofort die neue Locale sieht
-    setLocaleCookie(next);
+    setOpen(false);
 
     const nextPath = switchLocale(pathname, next);
 
-    startTransition(() => {
-      router.push(nextPath);
-      router.refresh(); // ✅ sofort neu rendern
-    });
+    const sp = new URLSearchParams(searchParams?.toString());
+    sp.set("__setLocale", next);
+
+    const href = sp.toString() ? `${nextPath}?${sp.toString()}` : nextPath;
+
+    // ✅ garantiert: kompletter Reload + Middleware setzt Cookie + Redirect
+    window.location.assign(href);
   }
 
   return (

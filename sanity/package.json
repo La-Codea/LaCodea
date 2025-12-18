@@ -1,17 +1,13 @@
 {
   "name": "sanity",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "sanity dev --clean",
+    "schema:extract": "sanity schema extract > /tmp/schema.json"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "sanity": "^5.0.0",
+    "sanity": "^5.0.1",
     "styled-components": "^6.1.19"
   }
 }

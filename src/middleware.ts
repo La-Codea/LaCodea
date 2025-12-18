@@ -36,12 +36,10 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // 0) Explicit locale switch via query: ?__setLocale=en|de|fr
+  // --- 1) Locale switch via query param
   const forced = url.searchParams.get(SET_PARAM);
   if (forced === "en" || forced === "de" || forced === "fr") {
     const base = stripLocalePrefix(pathname);
-
-    // build target visible URL (no query param)
     const targetUrl = req.nextUrl.clone();
     targetUrl.searchParams.delete(SET_PARAM);
 
@@ -50,15 +48,15 @@ export function middleware(req: NextRequest) {
       const res = NextResponse.redirect(targetUrl);
       res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
       return res;
-    } else {
-      targetUrl.pathname = `/${forced}${base === "/" ? "" : base}`;
-      const res = NextResponse.redirect(targetUrl);
-      res.cookies.set(LOCALE_COOKIE, forced, { path: "/", sameSite: "lax" });
-      return res;
     }
+
+    targetUrl.pathname = `/${forced}${base === "/" ? "" : base}`;
+    const res = NextResponse.redirect(targetUrl);
+    res.cookies.set(LOCALE_COOKIE, forced, { path: "/", sameSite: "lax" });
+    return res;
   }
 
-  // Determine locale from URL prefix
+  // --- 2) Determine locale from URL prefix or sticky cookie
   const segs = pathname.split("/").filter(Boolean);
   const first = segs[0];
 
@@ -66,7 +64,7 @@ export function middleware(req: NextRequest) {
   let hasPrefix = false;
 
   if (first && LOCALES.has(first)) {
-    locale = first as any;
+    locale = first as "en" | "de" | "fr";
     hasPrefix = true;
 
     // optional: /en/... -> redirect to /...
@@ -79,7 +77,6 @@ export function middleware(req: NextRequest) {
       return res;
     }
   } else {
-    // No prefix: follow sticky cookie (de/fr only)
     const cookieLocale = req.cookies.get(LOCALE_COOKIE)?.value;
     if (cookieLocale === "de" || cookieLocale === "fr") {
       const redirectUrl = req.nextUrl.clone();
@@ -88,22 +85,40 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  // Pass locale to Server Components
+  // --- 3) Determine subdomain (site/app)
+  const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
+  const sub = getSubdomainFromHost(host);
+
+  const isSimpletime = sub === "simpletime";
+
+  // appSlug: only for app-specific rewrites (exclude simpletime)
+  const appSlug =
+    sub && sub !== "www" && sub !== "localhost" && sub !== "simpletime" ? sub : null;
+
+  // siteSlug: for theming/layout decisions (simpletime counts!)
+  const siteSlug = isSimpletime ? "simpletime" : appSlug;
+
+  // --- 4) Prepare request headers for Server Components
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set("x-locale", locale);
+  if (siteSlug) requestHeaders.set("x-app-slug", siteSlug);
 
-  // Internal routing: strip /de or /fr prefix
+  // --- 5) Internal routing: strip /de or /fr prefix (keep visible URL)
   if (hasPrefix && locale !== "en") {
     const rest = "/" + segs.slice(1).join("/");
     url.pathname = rest === "/" ? "/" : rest;
   }
 
-  // Subdomain -> appSlug logic
-  const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
-  const sub = getSubdomainFromHost(host);
-  const appSlug = sub && sub !== "www" && sub !== "localhost" ? sub : null;
+  // --- 6) simpletime subdomain: rewrite "/" -> "/simpletime"
+  if (isSimpletime && url.pathname === "/") {
+    url.pathname = "/simpletime";
+    const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+    if (locale !== "en") res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
+    else res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+    return res;
+  }
 
-  // Subdomain: /support -> /support/<appSlug>
+  // --- 7) app subdomain: /support -> /support/<appSlug>
   if (appSlug && url.pathname === "/support") {
     url.pathname = `/support/${appSlug}`;
     const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
@@ -112,16 +127,15 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
-  // For de/fr prefixed URLs we must rewrite + set cookie
+  // --- 8) de/fr prefixed URLs: rewrite + set cookie
   if (hasPrefix && locale !== "en") {
     const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
     res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
     return res;
   }
 
-  // Default
+  // --- 9) Default
   const res = NextResponse.next({ request: { headers: requestHeaders } });
-  // keep cookie only for de/fr
   res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
   return res;
 }
