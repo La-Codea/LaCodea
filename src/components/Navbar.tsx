@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
 import MobileMenu from "@/components/MobileMenu";
@@ -40,14 +41,28 @@ export default function Navbar({ site }: { site: SiteConfig }) {
     return a === h || a.startsWith(h + "/");
   }
 
+  const showImageLogo = site.logoType === "image" && !!site.logoSrc;
+
   return (
     <header className="sticky top-0 z-50">
       <div className="navbar-shell border-b border-[rgb(var(--card-border))] bg-[rgb(var(--bg))]/70 backdrop-blur">
         <div className="container flex items-center justify-between navbar-pad">
           <Link href={homeHref} className="flex items-center gap-3 font-semibold tracking-tight">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[rgb(var(--card-border))] bg-[rgb(var(--card))] shadow-sm">
-              <span className="text-xs font-black">{site.key === "simpletime" ? "ST" : "LC"}</span>
+            <span className="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-[rgb(var(--card-border))] bg-[rgb(var(--card))] shadow-sm">
+              {showImageLogo ? (
+                <Image
+                  src={site.logoSrc!}
+                  alt={`${site.name} logo`}
+                  fill
+                  sizes="40px"
+                  className="h-7 w-7 rounded-xl"
+                  priority
+                />
+              ) : (
+                <span className="text-xs font-black">{site.key === "simpletime" ? "ST" : "LC"}</span>
+              )}
             </span>
+
             <span className="text-[15px] md:text-[16px]">{site.name}</span>
           </Link>
 

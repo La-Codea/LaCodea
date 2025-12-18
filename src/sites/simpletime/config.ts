@@ -4,7 +4,7 @@ export const simpletimeConfig: SiteConfig = {
   key: "simpletime",
   name: "SimpleTime",
   logoType: "image",
-  logoSrc: "/simpletime/logo.svg",
+  logoSrc: "/simpletime/simpletimelogo.png",
   nav: { showApps: false, showAnnouncements: true },
   defaults: { appSlug: "simpletime" },
 };
