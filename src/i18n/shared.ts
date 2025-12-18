@@ -5,7 +5,8 @@ import fr from "@/i18n/messages/fr";
 export type Locale = "en" | "de" | "fr";
 export const SUPPORTED_LOCALES: Locale[] = ["en", "de", "fr"];
 
-export type MessageValue = string | string[];
+// ✅ wichtig: readonly string[] erlauben
+export type MessageValue = string | readonly string[];
 
 export const MESSAGES: Record<Locale, Record<string, MessageValue>> = {
   en,
