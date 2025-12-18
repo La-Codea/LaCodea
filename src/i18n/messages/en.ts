@@ -86,17 +86,7 @@ const messages = {
   "pages.imprint.title": "Imprint",
   "pages.imprint.subtitle": "Legal information about LaCodea",
 
-  /* -----------------------
-     Privacy SimpleTime
-  ------------------------ */
-  "privacy.simpletime.title": "Privacy Policy – SimpleTime",
-  "privacy.simpletime.intro": "This Privacy Policy explains how SimpleTime handles your data.",
-  "privacy.simpletime.section1.title": "Data Collection",
-  "privacy.simpletime.section1.body": "SimpleTime does not require an account and does not collect personal data by default.",
-  "privacy.simpletime.section2.title": "Contact",
-  "privacy.simpletime.section2.body": "If you have questions, contact us at simpletime@lacodea.com.",
-
-  /* -----------------------
+    /* -----------------------
      Footer
   ------------------------ */
   "footer.tagline": "Simple, useful iOS apps — built by LaCodea.",
@@ -108,6 +98,34 @@ const messages = {
   
   "nav.privacy": "Privacy",
   "nav.imprint": "Imprint",
+
+  /* -----------------------
+     Privacy SimpleTime
+  ------------------------ */
+  "privacy.simpletime.title": "Privacy Policy – SimpleTime",
+  "privacy.simpletime.intro": "This privacy policy explains how SimpleTime handles your data.",
+
+  "privacy.simpletime.section1.title": "1. Data Collected",
+  "privacy.simpletime.section1.intro": "SimpleTime stores only the following locally generated content on your device:",
+  "privacy.simpletime.section1.list": [
+    "Tasks and categories",
+    "Time entries",
+    "Notes",
+    "App settings"
+  ],
+  "privacy.simpletime.section1.outro": "This data is not transmitted to any servers by SimpleTime.",
+
+  "privacy.simpletime.section2.title": "2. iCloud Storage",
+  "privacy.simpletime.section2.body": "If iCloud is enabled, your data is stored encrypted in your personal iCloud account. Apple provides the technical infrastructure. SimpleTime does not have access to your iCloud data.",
+
+  "privacy.simpletime.section3.title": "3. Analytics and Tracking",
+  "privacy.simpletime.section3.body": "SimpleTime does not use analytics tools, tracking, or advertising. No usage profiles are created.",
+
+  "privacy.simpletime.section4.title": "4. User Rights",
+  "privacy.simpletime.section4.body": "Since SimpleTime does not collect or process personal data, no separate access or deletion requests are required. You can delete your data at any time directly within the app.",
+
+  "privacy.simpletime.section5.title": "Contact",
+  "privacy.simpletime.section5.body": "If you have any questions, you can contact us at simpletime@lacodea.com."
 } as const;
 
 export default messages;
