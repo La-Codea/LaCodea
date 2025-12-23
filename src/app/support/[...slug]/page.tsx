@@ -1,22 +1,27 @@
-import AppSupportPage from "../AppSupportPage";
+// src/app/support/[...slug]/page.tsx
+import { redirect } from "next/navigation";
+import { getRequestLocale } from "@/lib/locale";
+
+function getAppSupportHref(slug: string, locale: string) {
+  const prefix = locale === "en" ? "" : `/${locale}`;
+
+  if (process.env.NODE_ENV !== "production") {
+    return `http://${slug}.localhost:3000${prefix}/support`;
+  }
+
+  const domain = process.env.ROOT_DOMAIN ?? "lacodea.com";
+  return `https://${slug}.${domain}${prefix}/support`;
+}
 
 export default async function SupportCatchAll({
   params,
 }: {
   params: { slug?: string[] };
 }) {
+  const locale = await getRequestLocale();
   const appSlug = (params?.slug?.[0] ?? "").trim();
 
-  if (!appSlug) {
-    return (
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-3xl font-bold">Support</h1>
-        <p className="mt-2 opacity-80">
-          ERROR: No app slug in route params. (Expected /support/&lt;app&gt;)
-        </p>
-      </div>
-    );
-  }
+  if (!appSlug) redirect("/support");
 
-  return <AppSupportPage appSlug={appSlug} />;
+  redirect(getAppSupportHref(appSlug, locale));
 }

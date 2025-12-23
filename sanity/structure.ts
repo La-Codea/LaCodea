@@ -1,16 +1,25 @@
-// sanity/structure.ts
-export default (S: any) =>
+import type { StructureResolver } from "sanity/structure";
+
+const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
-      S.documentTypeList("app")
+      // ✅ ListItem + Child List (mit default ordering)
+      S.documentTypeListItem("app")
         .title("Apps")
-        .defaultOrdering([
-          { field: "sortOrder", direction: "asc" },
-          { field: "name", direction: "asc" },
-        ]),
+        .child(
+          S.documentTypeList("app")
+            .title("Apps")
+            .defaultOrdering([
+              { field: "sortOrder", direction: "asc" },
+              { field: "name", direction: "asc" },
+            ])
+        ),
 
       S.divider(),
 
-      S.documentTypeList("announcement").title("Announcements"),
+      // ✅ ebenfalls als ListItem
+      S.documentTypeListItem("announcement").title("Announcements"),
     ]);
+
+export default structure;

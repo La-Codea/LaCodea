@@ -99,12 +99,16 @@ export default function FooterClient({
         <div className="footer-grid">
           {/* Brand */}
           <div>
-            <div className="footer-brand">
-              <span className="footer-logo">{brandCode}</span>
-              <span className="text-lg font-semibold tracking-tight">
-                {brandName}
-              </span>
-            </div>
+            <Link
+                href={path("/")}
+                className="footer-brand"
+                aria-label={`${brandName} Home`}
+                >
+                <span className="footer-logo">{brandCode}</span>
+                <span className="text-lg font-semibold tracking-tight">
+                    {brandName}
+                </span>
+            </Link>
 
             <p className="muted footer-tagline">{strings.tagline}</p>
 

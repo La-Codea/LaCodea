@@ -1,38 +1,57 @@
-import Link from "next/link";
+// src/sites/hub/pages/privacyIndex.tsx
 import { t, type Locale } from "@/i18n";
+import { getApps } from "@/lib/getApps";
+import HubPrivacyPolicy from "@/sites/hub/pages/privacyApp";
 
-export default function PrivacyIndexPage({ locale }: { locale: Locale }) {
-  const base = locale === "en" ? "" : `/${locale}`;
+function getLocalePrefix(locale: Locale) {
+  return locale === "en" ? "" : `/${locale}`;
+}
+
+function getAppBase(slug: string) {
+  if (process.env.NODE_ENV !== "production") {
+    return `http://${slug}.localhost:3000`;
+  }
+  const domain = process.env.ROOT_DOMAIN ?? "lacodea.com";
+  return `https://${slug}.${domain}`;
+}
+
+export default async function PrivacyIndexPage({ locale }: { locale: Locale }) {
+  const prefix = getLocalePrefix(locale);
+  const apps = await getApps();
+
   const updated = new Date().toISOString().slice(0, 10);
 
-  const apps = [{ name: "SimpleTime", slug: "simpletime" }];
-
   return (
-    <main className="container py-12">
-      <h1 className="text-3xl font-semibold tracking-tight">{t(locale, "pages.privacy.title")}</h1>
-      <p className="mt-2 text-zinc-600 dark:text-zinc-400">{t(locale, "pages.privacy.subtitle")}</p>
-
-      <div className="mt-6 text-sm text-zinc-500 dark:text-zinc-400">
-        {t(locale, "pages.privacy.updated")} {updated}
-      </div>
-
-      <div className="mt-10 rounded-2xl border border-black/10 bg-white/60 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+    <>
+      {/* oben: App Buttons */}
+      <section className="rounded-2xl border border-black/10 bg-white/60 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
         <div className="font-semibold">{t(locale, "pages.privacy.chooseApp")}</div>
-        <div className="mt-4 flex flex-col gap-2">
+
+        <div className="mt-4 flex flex-wrap gap-2">
           {apps.map((a) => (
-            <Link key={a.slug} className="btn w-fit" href={`${base}/privacy/${a.slug}`}>
+            <a
+              key={a._id}
+              className="btn"
+              href={`${getAppBase(a.slug)}${prefix}/privacy`}
+            >
               {a.name}
-            </Link>
+            </a>
           ))}
+
+          {apps.length === 0 ? (
+            <div className="muted">{t(locale, "pages.apps.empty")}</div>
+          ) : null}
         </div>
 
-        <div className="mt-8 text-sm text-zinc-600 dark:text-zinc-400">
-          {t(locale, "pages.privacy.rights")}{" "}
-          <a className="underline" href="mailto:contact@lacodea.com">
-            contact@lacodea.com
-          </a>
+        <div className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+          {t(locale, "pages.privacy.updated")} {updated}
         </div>
+      </section>
+
+      {/* darunter: LaCodea (Hub) Privacy */}
+      <div className="mt-10">
+        <HubPrivacyPolicy locale={locale} />
       </div>
-    </main>
+    </>
   );
 }
