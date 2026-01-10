@@ -46,9 +46,11 @@ export const announcementsForAppQuery = `
 `;
 
 export const faqsForAppQuery = `
-  *[_type == "faq" && app->slug.current == $appSlug] | order(question asc) {
+  *[_type == "faq" && app->slug.current == $appSlug]
+  | order(sortOrder asc, coalesce(question.de, question.en, "") asc) {
     _id,
     question,
-    answerText
+    answerText,
+    sortOrder
   }
 `;

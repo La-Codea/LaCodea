@@ -1,15 +1,26 @@
 import SupportForm from "@/components/SupportForm";
 import { sanityClient } from "@/lib/sanity";
 import { faqsForAppQuery } from "@/lib/queries";
+import { getRequestLocale } from "@/lib/locale";
+
+type I18nText = { en?: string; de?: string; fr?: string };
 
 type FAQ = {
   _id: string;
-  question: string;
-  answerText?: string;
+  question?: I18nText;
+  answerText?: I18nText;
 };
+
+type Locale = "en" | "de" | "fr";
+
+function pickI18nText(v: { en?: string; de?: string; fr?: string } | undefined, locale: Locale) {
+  if (!v) return "";
+  return v[locale] || v.en || v.de || v.fr || "";
+}
 
 export default async function AppSupportPage({ appSlug }: { appSlug: string }) {
   const slug = String(appSlug ?? "").trim();
+  const locale = await getRequestLocale();
 
   if (!slug) {
     return (
@@ -32,8 +43,15 @@ export default async function AppSupportPage({ appSlug }: { appSlug: string }) {
         <div className="mt-4 space-y-4">
           {faqs.map((f) => (
             <details key={f._id} className="rounded-2xl border p-4">
-              <summary className="cursor-pointer font-medium">{f.question}</summary>
-              {f.answerText && <p className="mt-2 opacity-80 whitespace-pre-wrap">{f.answerText}</p>}
+              <summary className="cursor-pointer font-medium">
+                {pickI18nText(f.question, locale)}
+              </summary>
+
+              {pickI18nText(f.answerText, locale) ? (
+                <p className="mt-2 opacity-80 whitespace-pre-wrap">
+                  {pickI18nText(f.answerText, locale)}
+                </p>
+              ) : null}
             </details>
           ))}
 

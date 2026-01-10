@@ -187,6 +187,10 @@ const messages = {
 "simpletime.support.faqTitle": "FAQ",
 "simpletime.support.formTitle": "Contact",
 "simpletime.support.noFaq": "Aucune entrée FAQ pour le moment. (Ajoute-les dans Sanity Studio sous « FAQ ».)",
+  "simpletime.support.contactTitle": "Encore des questions ?",
+  "simpletime.support.contactBody": "Si votre question ne trouve pas de réponse ici, vous pouvez nous contacter directement.",
+  "simpletime.support.contactCta": "Contacter le support",
+  "simpletime.support.contactHint": "Nous répondons généralement sous 24 à 48 heures.",
   
   /* -----------------------
      Confidentialité SimpleTime

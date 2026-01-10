@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { SiteConfig } from "@/site/config";
+import { HUB } from "@/site/config";
 
 type Locale = "en" | "de" | "fr";
 
@@ -38,6 +40,19 @@ function IconWhatsApp(props: React.SVGProps<SVGSVGElement>) {
       <path d="M12 2a9.9 9.9 0 0 0-8.5 15l-1 3.7 3.8-1A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.2.6.6-2.1-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.8-6.1c-.3-.2-1.7-.8-2-1s-.5-.2-.7.2-.8 1-.9 1.1-.3.2-.6.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.8c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5s-.7-1.7-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.3s-1 1-1 2.4 1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.1-1.4-.1-.1-.3-.2-.6-.4z" />
     </svg>
   );
+}
+
+function getHubHomeHref(locale: Locale) {
+  const prefix = locale === "en" ? "" : `/${locale}`;
+
+  // Lokal: Hub läuft auf localhost:3000 (ohne Subdomain)
+  if (process.env.NODE_ENV !== "production") {
+    return `http://localhost:3000${prefix}/`;
+  }
+
+  // Prod: Hub ist www.<ROOT_DOMAIN>
+  const domain = process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? process.env.ROOT_DOMAIN ?? "lacodea.com";
+  return `https://www.${domain}${prefix}/`;
 }
 
 export default function FooterClient({
@@ -84,8 +99,11 @@ export default function FooterClient({
   const showApps = site.nav?.showApps ?? true;
   const showAnnouncements = site.nav?.showAnnouncements ?? true;
 
-  const brandCode = site.key === "simpletime" ? "ST" : "LC";
-  const brandName = site.name ?? "LaCodea";
+  // ✅ Footer Brand ist IMMER LaCodea (Hub)
+  const brandSite = HUB;
+  const brandName = brandSite.name ?? "LaCodea";
+  const brandCode = "LC";
+  const showImageLogo = brandSite.logoType === "image" && !!brandSite.logoSrc;
 
   // TODO: echten WhatsApp Channel Link eintragen
   const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/xxxxxxxxxxxxxxxxxxxx";
@@ -99,16 +117,30 @@ export default function FooterClient({
         <div className="footer-grid">
           {/* Brand */}
           <div>
-            <Link
-                href={path("/")}
-                className="footer-brand"
-                aria-label={`${brandName} Home`}
-                >
-                <span className="footer-logo">{brandCode}</span>
-                <span className="text-lg font-semibold tracking-tight">
-                    {brandName}
-                </span>
-            </Link>
+            <a
+              href={getHubHomeHref(locale)}
+              className="footer-brand flex items-center gap-3"
+              aria-label={`${brandName} Home`}
+            >
+              <span className="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-[rgb(var(--card-border))] bg-[rgb(var(--card))] shadow-sm">
+                {showImageLogo ? (
+                  <Image
+                    src={brandSite.logoSrc!}
+                    alt={`${brandName} logo`}
+                    fill
+                    sizes="40px"
+                    className="object-contain p-1"
+                    priority
+                  />
+                ) : (
+                  <span className="text-xs font-black">{brandCode}</span>
+                )}
+              </span>
+
+              <span className="text-lg font-semibold tracking-tight">
+                {brandName}
+              </span>
+            </a>
 
             <p className="muted footer-tagline">{strings.tagline}</p>
 

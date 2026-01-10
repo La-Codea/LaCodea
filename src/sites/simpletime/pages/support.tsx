@@ -1,18 +1,28 @@
 // src/sites/simpletime/pages/support.tsx
+import Link from "next/link";
 import { getRequestLocale } from "@/lib/locale";
 import { t } from "@/i18n/shared";
-import SupportForm from "@/components/SupportForm";
 import { sanityClient } from "@/lib/sanityClient";
 import { faqsForAppQuery } from "@/lib/queries";
 
+type I18nText = { en?: string; de?: string; fr?: string };
+type MaybeI18n = string | I18nText;
+
 type FAQ = {
   _id: string;
-  question: string;
-  answerText?: string;
+  question: MaybeI18n;
+  answerText?: MaybeI18n;
 };
+
+function pickI18n(v: MaybeI18n | undefined, locale: "en" | "de" | "fr") {
+  if (!v) return "";
+  if (typeof v === "string") return v;
+  return v[locale] || v.en || v.de || v.fr || "";
+}
 
 export default async function SimpleTimeSupport() {
   const locale = await getRequestLocale();
+  const base = locale === "en" ? "" : `/${locale}`;
 
   const faqs: FAQ[] = await sanityClient.fetch(faqsForAppQuery, {
     appSlug: "simpletime",
@@ -34,9 +44,9 @@ export default async function SimpleTimeSupport() {
         </p>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
         {/* FAQ */}
-        <section className="card p-6 md:p-7">
+        <section className="card p-6 md:p-7 lg:col-span-2">
           <h2 className="text-lg md:text-xl font-semibold tracking-tight">
             {t(locale, "simpletime.support.faqTitle")}
           </h2>
@@ -44,33 +54,45 @@ export default async function SimpleTimeSupport() {
           <div className="mt-4 space-y-3">
             {faqs.map((f) => (
               <details key={f._id} className="card p-4">
-                <summary className="cursor-pointer font-medium">{f.question}</summary>
+                <summary className="cursor-pointer font-medium">
+                  {pickI18n(f.question, locale)}
+                </summary>
                 {f.answerText && (
                   <p className="muted mt-2 text-sm leading-relaxed whitespace-pre-wrap">
-                    {f.answerText}
+                    {pickI18n(f.answerText, locale)}
                   </p>
                 )}
               </details>
             ))}
 
             {faqs.length === 0 && (
-              <p className="muted text-sm">
-                {t(locale, "simpletime.support.noFaq")}
-              </p>
+              <p className="muted text-sm">{t(locale, "simpletime.support.noFaq")}</p>
             )}
           </div>
         </section>
 
-        {/* Form */}
-        <section className="card p-6 md:p-7">
+        {/* Kontakt CTA */}
+        <aside className="card p-6 md:p-7">
           <h2 className="text-lg md:text-xl font-semibold tracking-tight">
-            {t(locale, "simpletime.support.formTitle")}
+            {t(locale, "simpletime.support.contactTitle")}
           </h2>
 
+          <p className="muted mt-2 text-sm leading-relaxed">
+            {t(locale, "simpletime.support.contactBody")}
+          </p>
+
           <div className="mt-4">
-            <SupportForm locale={locale} app="simpletime" />
+            <Link className="btn btn-primary w-fit" href={`${base}/contact`}>
+              {t(locale, "simpletime.support.contactCta")}
+            </Link>
           </div>
-        </section>
+
+          <div className="hr my-5" />
+
+          <div className="muted text-xs">
+            {t(locale, "simpletime.support.contactHint")}
+          </div>
+        </aside>
       </div>
     </main>
   );

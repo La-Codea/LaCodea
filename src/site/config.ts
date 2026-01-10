@@ -17,7 +17,8 @@ export type SiteConfig = {
 export const HUB: SiteConfig = {
   key: "hub",
   name: "LaCodea",
-  logoType: "text",
+  logoType: "image",
+  logoSrc: "/lacodea/lacodealogo.png",
   nav: { showApps: true, showAnnouncements: true },
   defaults: {},
 };

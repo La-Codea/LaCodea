@@ -1,6 +1,7 @@
 import FooterClient from "@/components/FooterClient";
 import type { SiteConfig } from "@/site/config";
 import { getT } from "@/i18n/server";
+import Image from "next/image";
 
 type FooterStrings = {
   tagline: string;

@@ -181,11 +181,15 @@ const messages = {
   /* -----------------------
      Support SimpleTime
   ------------------------ */
-  "simpletime.support.title": "Support",
-  "simpletime.support.subtitle": "Hier findest du Antworten auf häufige Fragen – oder du schreibst uns direkt.",
-  "simpletime.support.faqTitle": "FAQ",
-  "simpletime.support.formTitle": "Kontakt",
-  "simpletime.support.noFaq": "Noch keine FAQ-Einträge vorhanden. (Du kannst sie in Sanity unter „FAQ“ hinzufügen.)",
+   "simpletime.support.title": "Support",
+   "simpletime.support.subtitle": "Hier findest du Antworten auf häufige Fragen – oder du schreibst uns direkt.",
+   "simpletime.support.faqTitle": "FAQ",
+   "simpletime.support.formTitle": "Kontakt",
+   "simpletime.support.noFaq": "Noch keine FAQ-Einträge vorhanden. (Du kannst sie in Sanity unter „FAQ“ hinzufügen.)",
+   "simpletime.support.contactTitle": "Noch Fragen?",
+   "simpletime.support.contactBody": "Wenn deine Frage hier nicht beantwortet wird, kannst du uns direkt kontaktieren.",
+   "simpletime.support.contactCta": "Kontakt aufnehmen",
+   "simpletime.support.contactHint": "Wir antworten in der Regel innerhalb von 24–48 Stunden.",
 
   /* -----------------------
      Datenschutz SimpleTime
