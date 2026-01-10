@@ -1,7 +1,6 @@
 import FooterClient from "@/components/FooterClient";
 import type { SiteConfig } from "@/site/config";
 import { getT } from "@/i18n/server";
-import Image from "next/image";
 
 type FooterStrings = {
   tagline: string;
@@ -21,6 +20,8 @@ type FooterStrings = {
   // socials
   socialWhatsapp: string;
   socialX: string;
+  socialInstagram: string;
+  socialTikTok: string;
 };
 
 export default async function Footer({ site }: { site: SiteConfig }) {
@@ -45,6 +46,8 @@ export default async function Footer({ site }: { site: SiteConfig }) {
 
     socialWhatsapp: tt("footer.social.whatsapp"),
     socialX: tt("footer.social.x"),
+    socialInstagram: tt("footer.social.instagram"),
+    socialTikTok: tt("footer.social.tiktok"),
   };
 
   return <FooterClient locale={locale} strings={strings} site={site} />;

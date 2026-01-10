@@ -1,6 +1,6 @@
 import { t, type Locale } from "@/i18n";
 
-type I18nText = { en?: string; de?: string; fr?: string };
+type I18nText = Partial<Record<Locale, string>>;
 type MaybeI18n = string | I18nText;
 
 export type FAQ = { q: MaybeI18n; a: MaybeI18n };
@@ -13,7 +13,22 @@ type Props = {
 function pickI18n(v: MaybeI18n, locale: Locale) {
   if (!v) return "";
   if (typeof v === "string") return v;
-  return v[locale] || v.en || v.de || v.fr || "";
+
+  // 1) exakt gewünschte Sprache
+  const direct = v[locale];
+  if (direct) return direct;
+
+  // 2) fallback
+  return (
+    v.en ||
+    v.de ||
+    v.fr ||
+    v.es ||
+    v.it ||
+    v.ru ||
+    v.hy ||
+    ""
+  );
 }
 
 function defaultFaqs(locale: Locale): FAQ[] {
