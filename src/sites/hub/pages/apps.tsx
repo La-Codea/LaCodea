@@ -6,7 +6,7 @@ type SanityApp = {
   _id: string;
   name: string;
   slug?: string;
-  description?: { en?: string; de?: string; fr?: string };
+  description?: Record<string, string | undefined>;
   appStoreUrl?: string;
 };
 
@@ -22,7 +22,21 @@ const APPS_QUERY = `*[_type == "app"] | order(sortOrder asc, name asc) {
 
 function pickLocalized(desc: SanityApp["description"], locale: Locale) {
   if (!desc) return "";
-  return desc[locale] || desc.en || desc.de || desc.fr || "";
+
+  const d = desc as Record<string, string | undefined>;
+
+  // Preferred: exact locale
+  return (
+    d[locale] ||
+    d.en ||
+    d.de ||
+    d.fr ||
+    d.es ||
+    d.it ||
+    d.ru ||
+    d.hy ||
+    ""
+  );
 }
 
 function getBase(locale: Locale) {
