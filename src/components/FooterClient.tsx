@@ -42,6 +42,22 @@ function IconWhatsApp(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function IconInstagram(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zm4.75-2.9a1.05 1.05 0 1 1-1.05 1.05 1.05 1.05 0 0 1 1.05-1.05z" />
+    </svg>
+  );
+}
+
+function IconTikTok(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M21 8.1a7.6 7.6 0 0 1-4.5-1.5v7.4a6.5 6.5 0 1 1-5.6-6.4v3.4a3.2 3.2 0 1 0 2.4 3.1V2h3.2a4.4 4.4 0 0 0 4.5 4.1z" />
+    </svg>
+  );
+}
+
 function getHubHomeHref(locale: Locale) {
   const prefix = locale === "en" ? "" : `/${locale}`;
 
@@ -107,6 +123,8 @@ export default function FooterClient({
 
   // TODO: echten WhatsApp Channel Link eintragen
   const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/xxxxxxxxxxxxxxxxxxxx";
+  const INSTAGRAM_URL = "https://instagram.com";
+  const TIKTOK_URL = "https://tiktok.com";
 
   return (
     <footer
@@ -119,7 +137,7 @@ export default function FooterClient({
           <div>
             <a
               href={getHubHomeHref(locale)}
-              className="footer-brand flex items-center gap-3"
+              className="footer-brand flex items-center gap-2"
               aria-label={`${brandName} Home`}
             >
               <span className="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-[rgb(var(--card-border))] bg-[rgb(var(--card))] shadow-sm">
@@ -129,14 +147,13 @@ export default function FooterClient({
                     alt={`${brandName} logo`}
                     fill
                     sizes="40px"
-                    className="object-contain p-1"
+                    className="h-7 w-7 rounded-xl"
                     priority
                   />
                 ) : (
                   <span className="text-xs font-black">{brandCode}</span>
                 )}
               </span>
-
               <span className="text-lg font-semibold tracking-tight">
                 {brandName}
               </span>
@@ -155,6 +172,16 @@ export default function FooterClient({
                   href: "https://x.com",
                   label: strings.socialX,
                   icon: <IconX className="h-5 w-5" />,
+                },
+                {
+                  href: INSTAGRAM_URL,
+                  label: "Instagram",
+                  icon: <IconInstagram className="h-5 w-5" />,
+                },
+                {
+                  href: TIKTOK_URL,
+                  label: "TikTok",
+                  icon: <IconTikTok className="h-5 w-5" />,
                 },
               ].map((s) => (
                 <a

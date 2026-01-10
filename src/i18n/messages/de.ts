@@ -66,7 +66,9 @@ const messages = {
   ------------------------ */
   "pages.feedback.title": "Feedback",
   "pages.feedback.subtitle":
-    "Sag uns, was dir gefällt und was wir verbessern können.",
+   "Sag uns, was dir gefällt und was wir verbessern können.",
+   "pages.feedback.chooseApp": "Für welche App möchtest du Feedback geben?",
+   "pages.feedback.openFeedback": "Feedback öffnen",
 
   /* -----------------------
      Kontakt
@@ -217,7 +219,11 @@ const messages = {
   "privacy.simpletime.section4.body": "Da SimpleTime keine personenbezogenen Daten erhebt oder verarbeitet, sind keine gesonderten Auskunfts- oder Löschanfragen erforderlich. Du kannst deine Daten jederzeit direkt in der App löschen.",
 
   "privacy.simpletime.section5.title": "Kontakt",
-  "privacy.simpletime.section5.body": "Bei Fragen erreichst du uns unter simpletime@lacodea.com."
+  "privacy.simpletime.section5.body": "Bei Fragen erreichst du uns unter simpletime@lacodea.com.",
+
+  "simpletime.feedback.title": "Feedback",
+"simpletime.feedback.subtitle": "Sag uns, was wir verbessern können.",
+"simpletime.feedback.formTitle": "Feedback senden"
 } as const;
 
 export default messages;
