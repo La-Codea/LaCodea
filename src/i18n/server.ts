@@ -1,10 +1,19 @@
 import { cookies, headers } from "next/headers";
 import { MESSAGES, Locale } from "@/i18n/messages";
 
-export const SUPPORTED_LOCALES: Locale[] = ["en", "de", "fr"];
+export const SUPPORTED_LOCALES: Locale[] = ["en", "de", "fr", "es", "it", "ru", "hy"];
 
 function normalizeLocale(v: string | null | undefined): Locale {
-  if (v === "de" || v === "fr" || v === "en") return v;
+  if (
+    v === "de" ||
+    v === "fr" ||
+    v === "es" ||
+    v === "it" ||
+    v === "ru" ||
+    v === "hy" ||
+    v === "en"
+  )
+    return v;
   return "en";
 }
 

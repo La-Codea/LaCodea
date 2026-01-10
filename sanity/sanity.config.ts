@@ -1,7 +1,7 @@
 import { defineConfig } from "sanity";
-import structureTool from "sanity/structure";
+import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./schemaTypes";
-import structure from "./structure";
+import deskStructure from "./structure";
 
 export default defineConfig({
   name: "default",
@@ -12,7 +12,7 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure,
+      structure: deskStructure,
     }),
   ],
 

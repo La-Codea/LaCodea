@@ -4,12 +4,16 @@ import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getLocaleFromPath, switchLocale } from "@/i18n/client";
 
-type Locale = "en" | "de" | "fr";
+type Locale = "en" | "de" | "fr" | "es" | "it" | "ru" | "hy";
 
 const OPTIONS: { value: Locale; label: string }[] = [
   { value: "en", label: "English" },
   { value: "de", label: "Deutsch" },
   { value: "fr", label: "Français" },
+  { value: "es", label: "Español" },
+  { value: "it", label: "Italiano" },
+  { value: "ru", label: "Русский" },
+  { value: "hy", label: "Հայերեն" },
 ];
 
 const SET_PARAM = "__setLocale";
@@ -52,7 +56,7 @@ export default function LanguageToggle() {
     const nextPath = switchLocale(pathname, next);
 
     const sp = new URLSearchParams(searchParams?.toString());
-    sp.set("__setLocale", next);
+    sp.set(SET_PARAM, next);
 
     const href = sp.toString() ? `${nextPath}?${sp.toString()}` : nextPath;
 

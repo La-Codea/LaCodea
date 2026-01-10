@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ROOT_DOMAIN = process.env.ROOT_DOMAIN ?? "lacodea.com";
-const LOCALES = new Set(["en", "de", "fr"]);
+
+// ✅ erweitert
+const LOCALES = new Set(["en", "de", "fr", "es", "it", "ru", "hy"] as const);
+
 const LOCALE_COOKIE = "lacodea_locale";
 const SET_PARAM = "__setLocale";
 
@@ -14,7 +17,7 @@ function getSubdomainFromHost(hostname: string) {
 function stripLocalePrefix(pathname: string): string {
   const segs = pathname.split("/").filter(Boolean);
   const first = segs[0];
-  if (first && LOCALES.has(first)) {
+  if (first && LOCALES.has(first as any)) {
     const rest = "/" + segs.slice(1).join("/");
     return rest === "/" ? "/" : rest;
   }
@@ -38,7 +41,15 @@ export function middleware(req: NextRequest) {
 
   // --- 1) Locale switch via query param
   const forced = url.searchParams.get(SET_PARAM);
-  if (forced === "en" || forced === "de" || forced === "fr") {
+  if (
+    forced === "en" ||
+    forced === "de" ||
+    forced === "fr" ||
+    forced === "es" ||
+    forced === "it" ||
+    forced === "ru" ||
+    forced === "hy"
+  ) {
     const base = stripLocalePrefix(pathname);
     const targetUrl = req.nextUrl.clone();
     targetUrl.searchParams.delete(SET_PARAM);
@@ -60,11 +71,11 @@ export function middleware(req: NextRequest) {
   const segs = pathname.split("/").filter(Boolean);
   const first = segs[0];
 
-  let locale: "en" | "de" | "fr" = "en";
+  let locale: "en" | "de" | "fr" | "es" | "it" | "ru" | "hy" = "en";
   let hasPrefix = false;
 
-  if (first && LOCALES.has(first)) {
-    locale = first as "en" | "de" | "fr";
+  if (first && LOCALES.has(first as any)) {
+    locale = first as typeof locale;
     hasPrefix = true;
 
     // optional: /en/... -> redirect to /...
@@ -78,7 +89,14 @@ export function middleware(req: NextRequest) {
     }
   } else {
     const cookieLocale = req.cookies.get(LOCALE_COOKIE)?.value;
-    if (cookieLocale === "de" || cookieLocale === "fr") {
+    if (
+      cookieLocale === "de" ||
+      cookieLocale === "fr" ||
+      cookieLocale === "es" ||
+      cookieLocale === "it" ||
+      cookieLocale === "ru" ||
+      cookieLocale === "hy"
+    ) {
       const redirectUrl = req.nextUrl.clone();
       redirectUrl.pathname = `/${cookieLocale}${pathname === "/" ? "" : pathname}`;
       return NextResponse.redirect(redirectUrl);
@@ -103,7 +121,7 @@ export function middleware(req: NextRequest) {
   requestHeaders.set("x-locale", locale);
   if (siteSlug) requestHeaders.set("x-app-slug", siteSlug);
 
-  // --- 5) Internal routing: strip /de or /fr prefix (keep visible URL)
+  // --- 5) Internal routing: strip locale prefix (keep visible URL)
   if (hasPrefix && locale !== "en") {
     const rest = "/" + segs.slice(1).join("/");
     url.pathname = rest === "/" ? "/" : rest;
@@ -127,7 +145,7 @@ export function middleware(req: NextRequest) {
     return res;
   }
 
-  // --- 8) de/fr prefixed URLs: rewrite + set cookie
+  // --- 8) locale-prefixed URLs: rewrite + set cookie
   if (hasPrefix && locale !== "en") {
     const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
     res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });

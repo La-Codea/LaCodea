@@ -1,11 +1,6 @@
 // sanity/schemaTypes/announcement.ts
 import { defineType, defineField } from "sanity";
-
-const locales = [
-  { title: "English", name: "en" },
-  { title: "Deutsch", name: "de" },
-  { title: "Français", name: "fr" },
-];
+import { LOCALES } from "./locales";
 
 export default defineType({
   name: "announcement",
@@ -16,7 +11,7 @@ export default defineType({
       name: "title",
       title: "Title",
       type: "object",
-      fields: locales.map((l) =>
+      fields: LOCALES.map((l) =>
         defineField({
           name: l.name,
           title: l.title,
@@ -60,7 +55,7 @@ export default defineType({
       title: "Body",
       type: "object",
       description: "Write the announcement in all available languages.",
-      fields: locales.map((l) =>
+      fields: LOCALES.map((l) =>
         defineField({
           name: l.name,
           title: l.title,

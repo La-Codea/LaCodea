@@ -1,8 +1,9 @@
-export type Locale = "en" | "de" | "fr";
-export const SUPPORTED_LOCALES: Locale[] = ["en", "de", "fr"];
+export type Locale = "en" | "de" | "fr" | "es" | "it" | "ru" | "hy";
+export const SUPPORTED_LOCALES: Locale[] = ["en", "de", "fr", "es", "it", "ru", "hy"];
 
 export function normalizeLocale(v: string | null | undefined): Locale {
-  if (v === "de" || v === "fr" || v === "en") return v;
+  if (v === "de" || v === "fr" || v === "es" || v === "it" || v === "ru" || v === "hy" || v === "en")
+    return v;
   return "en";
 }
 

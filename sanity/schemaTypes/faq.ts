@@ -1,4 +1,6 @@
+// sanity/schemaTypes/faq.ts
 import { defineType, defineField } from "sanity";
+import { LOCALES } from "./locales";
 
 export default defineType({
   name: "faq",
@@ -30,11 +32,13 @@ export default defineType({
       name: "question",
       title: "Question",
       type: "object",
-      fields: [
-        defineField({ name: "en", title: "English", type: "string" }),
-        defineField({ name: "de", title: "Deutsch", type: "string" }),
-        defineField({ name: "fr", title: "Français", type: "string" }),
-      ],
+      fields: LOCALES.map((l) =>
+        defineField({
+          name: l.name,
+          title: l.title,
+          type: "string",
+        })
+      ),
       validation: (r) => r.required(),
     }),
 
@@ -42,11 +46,13 @@ export default defineType({
       name: "answerText",
       title: "Answer",
       type: "object",
-      fields: [
-        defineField({ name: "en", title: "English", type: "text" }),
-        defineField({ name: "de", title: "Deutsch", type: "text" }),
-        defineField({ name: "fr", title: "Français", type: "text" }),
-      ],
+      fields: LOCALES.map((l) =>
+        defineField({
+          name: l.name,
+          title: l.title,
+          type: "text",
+        })
+      ),
       validation: (r) => r.required(),
     }),
   ],
@@ -54,12 +60,16 @@ export default defineType({
   preview: {
     select: {
       appName: "app.name",
-      qEn: "question.en",
       qDe: "question.de",
+      qEn: "question.en",
       qFr: "question.fr",
+      qEs: "question.es",
+      qIt: "question.it",
+      qRu: "question.ru",
+      qHy: "question.hy",
     },
-    prepare({ appName, qEn, qDe, qFr }) {
-      const title = qDe || qEn || qFr || "FAQ";
+    prepare({ appName, qDe, qEn, qFr, qEs, qIt, qRu, qHy }) {
+      const title = qDe || qEn || qFr || qEs || qIt || qRu || qHy || "FAQ";
       return {
         title,
         subtitle: appName ? `App: ${appName}` : "No app selected",
