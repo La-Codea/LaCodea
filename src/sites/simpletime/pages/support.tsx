@@ -1,11 +1,12 @@
 // src/sites/simpletime/pages/support.tsx
 import Link from "next/link";
 import { getRequestLocale } from "@/lib/locale";
+import type { Locale } from "@/lib/locale";
 import { t } from "@/i18n/shared";
 import { sanityClient } from "@/lib/sanityClient";
 import { faqsForAppQuery } from "@/lib/queries";
 
-type I18nText = { en?: string; de?: string; fr?: string };
+type I18nText = Partial<Record<Locale, string>>;
 type MaybeI18n = string | I18nText;
 
 type FAQ = {
@@ -14,10 +15,24 @@ type FAQ = {
   answerText?: MaybeI18n;
 };
 
-function pickI18n(v: MaybeI18n | undefined, locale: "en" | "de" | "fr") {
+function pickI18n(v: MaybeI18n | undefined, locale: Locale) {
   if (!v) return "";
   if (typeof v === "string") return v;
-  return v[locale] || v.en || v.de || v.fr || "";
+
+  // `v` kommt aus Sanity und kann je nach Schema Keys enthalten/nicht enthalten.
+  // Deshalb: erst den aktuellen Locale versuchen, dann in definierter Reihenfolge fallbacken.
+  const r = v as Partial<Record<string, string>>;
+  return (
+    r[locale] ||
+    r.en ||
+    r.de ||
+    r.fr ||
+    r.es ||
+    r.it ||
+    r.ru ||
+    r.hy ||
+    ""
+  );
 }
 
 export default async function SimpleTimeSupport() {
