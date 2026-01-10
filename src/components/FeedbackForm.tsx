@@ -66,7 +66,7 @@ export default function FeedbackForm({ locale = "en", app, defaultApp }: Props) 
   const effectiveApp = app ?? selectedApp;
 
   // Kategorien: für alles außer de -> en
-  const catLocale = (locale === "de" ? "de" : "en") as const;
+  const catLocale: "en" | "de" = locale === "de" ? "de" : "en";
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
