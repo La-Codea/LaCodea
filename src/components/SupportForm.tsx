@@ -35,8 +35,41 @@ const PROBLEMS: Record<Locale, { value: string; label: string }[]> = {
     { value: "privacy", label: "Question de confidentialité" },
     { value: "other", label: "Autre problème" },
   ],
-};
 
+  // Neue Sprachen (Fallback/Startwerte — kannst du später sauber übersetzen)
+  es: [
+    { value: "crash", label: "La app se cierra" },
+    { value: "bug", label: "Error / comportamiento inesperado" },
+    { value: "feature", label: "Solicitud de función" },
+    { value: "purchase", label: "Compra / problema con App Store" },
+    { value: "privacy", label: "Pregunta de privacidad" },
+    { value: "other", label: "Otro problema" },
+  ],
+  it: [
+    { value: "crash", label: "L’app si chiude" },
+    { value: "bug", label: "Bug / comportamento inatteso" },
+    { value: "feature", label: "Richiesta funzionalità" },
+    { value: "purchase", label: "Acquisto / problema App Store" },
+    { value: "privacy", label: "Domanda sulla privacy" },
+    { value: "other", label: "Altro problema" },
+  ],
+  ru: [
+    { value: "crash", label: "Приложение вылетает" },
+    { value: "bug", label: "Ошибка / неожиданное поведение" },
+    { value: "feature", label: "Запрос функции" },
+    { value: "purchase", label: "Покупка / проблема App Store" },
+    { value: "privacy", label: "Вопрос о приватности" },
+    { value: "other", label: "Другая проблема" },
+  ],
+  hy: [
+    { value: "crash", label: "Հավելվածը փակվում/խափանվում է" },
+    { value: "bug", label: "Սխալ / անսպասելի վարք" },
+    { value: "feature", label: "Ֆունկցիայի առաջարկ" },
+    { value: "purchase", label: "Գնում / App Store-ի խնդիր" },
+    { value: "privacy", label: "Գաղտնիության հարց" },
+    { value: "other", label: "Այլ խնդիր" },
+  ],
+};
 
 export default function SupportForm({ locale = "en", app }: Props) {
   const [email, setEmail] = useState("");
@@ -126,7 +159,7 @@ export default function SupportForm({ locale = "en", app }: Props) {
           onChange={(e) => setProblemType(e.target.value)}
           className="w-full rounded-xl border px-3 py-2 bg-transparent"
         >
-          {PROBLEMS[locale].map((p) => (
+          {(PROBLEMS[locale] ?? PROBLEMS.en).map((p) => (
             <option key={p.value} value={p.value}>
               {p.label}
             </option>
