@@ -1,7 +1,8 @@
+// src/lib/locale.ts
 import { headers } from "next/headers";
 
 export const SUPPORTED_LOCALES = ["en", "de", "fr", "es", "it", "ru", "hy"] as const;
-export type Locale = typeof SUPPORTED_LOCALES[number];
+export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 export async function getRequestLocale(): Promise<Locale> {
   const h = await headers();
