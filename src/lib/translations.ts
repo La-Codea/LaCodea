@@ -1,4 +1,4 @@
-export type Locale = "en" | "de" | "fr";
+export type Locale = "en" | "de" | "fr" | "es" | "it" | "ru" | "hy";
 
 export const translations: Record<Locale, any> = {
   en: {

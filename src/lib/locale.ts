@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 
-export const SUPPORTED_LOCALES = ["en", "de", "fr"] as const;
+export const SUPPORTED_LOCALES = ["en", "de", "fr", "es", "it", "ru", "hy"] as const;
 export type Locale = typeof SUPPORTED_LOCALES[number];
 
 export async function getRequestLocale(): Promise<Locale> {
