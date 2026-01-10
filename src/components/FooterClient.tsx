@@ -5,8 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { SiteConfig } from "@/site/config";
 import { HUB } from "@/site/config";
-
-type Locale = "en" | "de" | "fr";
+import type { Locale } from "@/i18n/shared";
 
 type FooterStrings = {
   tagline: string;
@@ -24,6 +23,8 @@ type FooterStrings = {
 
   socialWhatsapp: string;
   socialX: string;
+  socialInstagram: string;
+  socialTikTok: string;
 };
 
 function IconX(props: React.SVGProps<SVGSVGElement>) {
@@ -175,12 +176,12 @@ export default function FooterClient({
                 },
                 {
                   href: INSTAGRAM_URL,
-                  label: "Instagram",
+                  label: strings.socialInstagram,
                   icon: <IconInstagram className="h-5 w-5" />,
                 },
                 {
                   href: TIKTOK_URL,
-                  label: "TikTok",
+                  label: strings.socialTikTok,
                   icon: <IconTikTok className="h-5 w-5" />,
                 },
               ].map((s) => (

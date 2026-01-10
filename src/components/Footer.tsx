@@ -2,7 +2,7 @@
 import FooterClient from "@/components/FooterClient";
 import type { SiteConfig } from "@/site/config";
 import { getT } from "@/i18n/server";
-import type { Locale } from "@/i18n";
+import type { Locale } from "@/i18n/shared";
 
 type FooterStrings = {
   tagline: string;
@@ -10,7 +10,6 @@ type FooterStrings = {
   sectionLegal: string;
   bottomline: string;
 
-  // nav labels
   apps: string;
   announcements: string;
   support: string;
@@ -19,7 +18,6 @@ type FooterStrings = {
   privacy: string;
   imprint: string;
 
-  // socials
   socialWhatsapp: string;
   socialX: string;
   socialInstagram: string;
@@ -28,11 +26,8 @@ type FooterStrings = {
 
 export default async function Footer({ site }: { site: SiteConfig }) {
   const __i18n = await getT();
-
-  // ✅ Locale sauber typisieren (auch bei neuen Locales)
-  const locale = (
-    typeof __i18n === "function" ? "en" : __i18n.locale ?? "en"
-  ) as Locale;
+  const locale =
+    (typeof __i18n === "function" ? "en" : __i18n.locale ?? "en") as Locale;
 
   const tt = typeof __i18n === "function" ? __i18n : __i18n.t;
 
