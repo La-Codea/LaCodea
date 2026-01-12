@@ -1,4 +1,4 @@
-export type SiteKey = "hub" | "simpletime";
+export type SiteKey = "hub" | "simpletime" | "orgaone";
 
 export type SiteConfig = {
   key: SiteKey;
