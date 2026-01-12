@@ -142,7 +142,7 @@ export default function FooterClient({
       ref={ref}
       className={`footer footer-reveal ${visible ? "is-visible" : ""}`}
     >
-      <div className="container footer-inner px-4 sm:px-6">
+      <div className="container footer-inner !px-4 sm:!px-6">
         <div className="footer-grid">
           {/* Brand */}
           <div>
@@ -262,7 +262,7 @@ export default function FooterClient({
           </div>
         </div>
 
-        <div className="footer-bottom">
+        <div className="footer-bottom !px-4 sm:!px-6">
           <div className="muted">
             © {new Date().getFullYear()} {brandName}
           </div>
