@@ -12,10 +12,12 @@ type Locale = "en" | "de" | "fr" | "es" | "it" | "ru" | "hy";
 
 function getCookieDomainFromHost(hostname: string) {
   // Dev: simpletime.localhost / orgaone.localhost etc.
-  if (hostname.endsWith(".localhost")) return ".localhost";
+  // IMPORTANT: Browsers reject `Domain=.localhost`.
+  // So in dev we MUST NOT set the domain attribute at all.
+  if (hostname === "localhost" || hostname.endsWith(".localhost")) return undefined;
 
   // Prod: share across subdomains -> ".lacodea.com" (or whatever ROOT_DOMAIN is)
-  if (hostname.endsWith(`.${ROOT_DOMAIN}`)) return `.${ROOT_DOMAIN}`;
+  if (hostname === ROOT_DOMAIN || hostname.endsWith(`.${ROOT_DOMAIN}`)) return `.${ROOT_DOMAIN}`;
 
   return undefined;
 }
@@ -162,30 +164,6 @@ const siteSlug = isSimpletime ? "simpletime" : isOrgaone ? "orgaone" : appSlug;
   if (hasPrefix && locale !== "en") {
     const rest = "/" + segs.slice(1).join("/");
     url.pathname = rest === "/" ? "/" : rest;
-  }
-
-  // --- 6) app landing subdomains: rewrite "/" -> "/<site>"
-  if ((isSimpletime || isOrgaone) && url.pathname === "/") {
-    url.pathname = isSimpletime ? "/simpletime" : "/orgaone";
-    const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-
-    setLocaleCookie(res, locale, host);
-
-    return res;
-  }
-
-    // --- 6b) app landing subdomains: rewrite "/support" -> "/<site>/support"
-  if ((isSimpletime || isOrgaone) && url.pathname === "/support") {
-    url.pathname = isSimpletime ? "/simpletime/support" : "/orgaone/support";
-    const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-
-    if (locale !== "en") {
-      res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
-    } else {
-      res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
-    }
-
-    return res;
   }
 
   // --- 7) app subdomain: /support -> /support/<appSlug>

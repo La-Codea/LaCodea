@@ -53,10 +53,11 @@ export default function LanguageToggle() {
 
     setOpen(false);
 
-    const nextPath = switchLocale(pathname, next);
-
     const sp = new URLSearchParams(searchParams?.toString());
     sp.set(SET_PARAM, next);
+
+    // Default: switch locale based on current pathname
+    let nextPath = switchLocale(pathname, next);
 
     const href = sp.toString() ? `${nextPath}?${sp.toString()}` : nextPath;
 
