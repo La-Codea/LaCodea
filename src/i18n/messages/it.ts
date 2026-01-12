@@ -105,8 +105,11 @@ const messages = {
   "footer.section.navigation": "Navigazione",
   "footer.section.legal": "Legale",
   "footer.bottomline": "Creato con cura · Privacy prima di tutto",
-  "footer.social.whatsapp": "Canale WhatsApp",
-  "footer.social.x": "X",
+"footer.social.whatsapp": "Canale WhatsApp",
+"footer.social.telegram": "Canale Telegram",
+"footer.social.x": "X (Twitter)",
+"footer.social.instagram": "Instagram",
+"footer.social.tiktok": "TikTok",
 
   "nav.privacy": "Privacy",
   "nav.imprint": "Note legali",
@@ -222,7 +225,17 @@ const messages = {
 
   "simpletime.feedback.title": "Feedback",
   "simpletime.feedback.subtitle": "Dicci cosa possiamo migliorare.",
-  "simpletime.feedback.formTitle": "Invia feedback"
+  "simpletime.feedback.formTitle": "Invia feedback",
+
+  "orgaone.support.title": "Supporto OrgaOne",
+"orgaone.support.subtitle": "Ottieni aiuto, risposte alle domande frequenti e contattaci se necessario.",
+
+"orgaone.support.faqTitle": "Domande frequenti",
+
+"orgaone.support.contactTitle": "Contatta il supporto",
+"orgaone.support.contactBody": "Se non hai trovato risposta nelle FAQ, contattaci.",
+"orgaone.support.contactCta": "Contatta il supporto",
+"orgaone.support.contactHint": "Di solito rispondiamo entro 24 ore."
 
 
 } as const;

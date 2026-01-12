@@ -8,6 +8,38 @@ const LOCALES = new Set(["en", "de", "fr", "es", "it", "ru", "hy"] as const);
 const LOCALE_COOKIE = "lacodea_locale";
 const SET_PARAM = "__setLocale";
 
+type Locale = "en" | "de" | "fr" | "es" | "it" | "ru" | "hy";
+
+function getCookieDomainFromHost(hostname: string) {
+  // Dev: simpletime.localhost / orgaone.localhost etc.
+  if (hostname.endsWith(".localhost")) return ".localhost";
+
+  // Prod: share across subdomains -> ".lacodea.com" (or whatever ROOT_DOMAIN is)
+  if (hostname.endsWith(`.${ROOT_DOMAIN}`)) return `.${ROOT_DOMAIN}`;
+
+  return undefined;
+}
+
+function setLocaleCookie(res: NextResponse, locale: Locale | null, host: string) {
+  const domain = getCookieDomainFromHost(host);
+
+  if (!locale || locale === "en") {
+    // Clear cookie for EN
+    res.cookies.set(LOCALE_COOKIE, "", {
+      path: "/",
+      maxAge: 0,
+      ...(domain ? { domain } : {}),
+    });
+    return;
+  }
+
+  res.cookies.set(LOCALE_COOKIE, locale, {
+    path: "/",
+    sameSite: "lax",
+    ...(domain ? { domain } : {}),
+  });
+}
+
 function getSubdomainFromHost(hostname: string) {
   if (hostname.endsWith(".localhost")) return hostname.replace(".localhost", "");
   if (hostname.endsWith(`.${ROOT_DOMAIN}`)) return hostname.replace(`.${ROOT_DOMAIN}`, "");
@@ -53,17 +85,18 @@ export function middleware(req: NextRequest) {
     const base = stripLocalePrefix(pathname);
     const targetUrl = req.nextUrl.clone();
     targetUrl.searchParams.delete(SET_PARAM);
+    const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
 
     if (forced === "en") {
       targetUrl.pathname = base; // no prefix for EN
       const res = NextResponse.redirect(targetUrl);
-      res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+      setLocaleCookie(res, null, host);
       return res;
     }
 
     targetUrl.pathname = `/${forced}${base === "/" ? "" : base}`;
     const res = NextResponse.redirect(targetUrl);
-    res.cookies.set(LOCALE_COOKIE, forced, { path: "/", sameSite: "lax" });
+    setLocaleCookie(res, forced as Locale, host);
     return res;
   }
 
@@ -71,11 +104,11 @@ export function middleware(req: NextRequest) {
   const segs = pathname.split("/").filter(Boolean);
   const first = segs[0];
 
-  let locale: "en" | "de" | "fr" | "es" | "it" | "ru" | "hy" = "en";
+  let locale: Locale = "en";
   let hasPrefix = false;
 
   if (first && LOCALES.has(first as any)) {
-    locale = first as typeof locale;
+    locale = first as Locale;
     hasPrefix = true;
 
     // optional: /en/... -> redirect to /...
@@ -83,8 +116,9 @@ export function middleware(req: NextRequest) {
       const rest = "/" + segs.slice(1).join("/");
       const redirectUrl = req.nextUrl.clone();
       redirectUrl.pathname = rest === "/" ? "/" : rest;
+      const host = (req.headers.get("host") ?? "").split(":")[0].toLowerCase();
       const res = NextResponse.redirect(redirectUrl);
-      res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+      setLocaleCookie(res, null, host);
       return res;
     }
   } else {
@@ -108,13 +142,16 @@ export function middleware(req: NextRequest) {
   const sub = getSubdomainFromHost(host);
 
   const isSimpletime = sub === "simpletime";
+  const isOrgaone = sub === "orgaone";
 
-  // appSlug: only for app-specific rewrites (exclude simpletime)
-  const appSlug =
-    sub && sub !== "www" && sub !== "localhost" && sub !== "simpletime" ? sub : null;
+// appSlug: only for app-specific rewrites (exclude simpletime/orgaone)
+const appSlug =
+  sub && sub !== "www" && sub !== "localhost" && sub !== "simpletime" && sub !== "orgaone"
+    ? sub
+    : null;
 
-  // siteSlug: for theming/layout decisions (simpletime counts!)
-  const siteSlug = isSimpletime ? "simpletime" : appSlug;
+// siteSlug: for theming/layout decisions (simpletime/orgaone count!)
+const siteSlug = isSimpletime ? "simpletime" : isOrgaone ? "orgaone" : appSlug;
 
   // --- 4) Prepare request headers for Server Components
   const requestHeaders = new Headers(req.headers);
@@ -127,12 +164,27 @@ export function middleware(req: NextRequest) {
     url.pathname = rest === "/" ? "/" : rest;
   }
 
-  // --- 6) simpletime subdomain: rewrite "/" -> "/simpletime"
-  if (isSimpletime && url.pathname === "/") {
-    url.pathname = "/simpletime";
+  // --- 6) app landing subdomains: rewrite "/" -> "/<site>"
+  if ((isSimpletime || isOrgaone) && url.pathname === "/") {
+    url.pathname = isSimpletime ? "/simpletime" : "/orgaone";
     const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-    if (locale !== "en") res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
-    else res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+
+    setLocaleCookie(res, locale, host);
+
+    return res;
+  }
+
+    // --- 6b) app landing subdomains: rewrite "/support" -> "/<site>/support"
+  if ((isSimpletime || isOrgaone) && url.pathname === "/support") {
+    url.pathname = isSimpletime ? "/simpletime/support" : "/orgaone/support";
+    const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+
+    if (locale !== "en") {
+      res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
+    } else {
+      res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+    }
+
     return res;
   }
 
@@ -140,21 +192,20 @@ export function middleware(req: NextRequest) {
   if (appSlug && url.pathname === "/support") {
     url.pathname = `/support/${appSlug}`;
     const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-    if (locale !== "en") res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
-    else res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+    setLocaleCookie(res, locale, host);
     return res;
   }
 
   // --- 8) locale-prefixed URLs: rewrite + set cookie
   if (hasPrefix && locale !== "en") {
     const res = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
-    res.cookies.set(LOCALE_COOKIE, locale, { path: "/", sameSite: "lax" });
+    setLocaleCookie(res, locale, host);
     return res;
   }
 
   // --- 9) Default
   const res = NextResponse.next({ request: { headers: requestHeaders } });
-  res.cookies.set(LOCALE_COOKIE, "", { path: "/", maxAge: 0 });
+  setLocaleCookie(res, null, host);
   return res;
 }
 

@@ -19,17 +19,39 @@ type Announcement = {
 function formatDate(iso?: string, locale: Locale = "en") {
   if (!iso) return "";
   try {
-    return new Date(iso).toLocaleDateString(
-      locale === "de" ? "de-DE" : locale === "fr" ? "fr-FR" : "en-US",
-      { year: "numeric", month: "short", day: "2-digit" }
-    );
+    const map: Record<string, string> = {
+      en: "en-US",
+      de: "de-DE",
+      fr: "fr-FR",
+      es: "es-ES",
+      it: "it-IT",
+      ru: "ru-RU",
+      hy: "hy-AM",
+    };
+    return new Date(iso).toLocaleDateString(map[locale] ?? "en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
   } catch {
     return "";
   }
 }
 
 function pickLocale(v: LocalizedString | undefined, locale: Locale): string | undefined {
-  return v?.[locale] ?? v?.en ?? v?.de ?? v?.fr;
+  if (!v) return undefined;
+  const r = v as Partial<Record<string, string>>;
+  return (
+    r[locale] ||
+    r.en ||
+    r.de ||
+    r.fr ||
+    r.es ||
+    r.it ||
+    r.ru ||
+    r.hy ||
+    undefined
+  );
 }
 
 export default async function AnnouncementList({
@@ -52,10 +74,24 @@ export default async function AnnouncementList({
           <div className="muted text-sm flex flex-wrap items-center gap-2">
             {a.publishedAt ? <span>{formatDate(a.publishedAt, locale)}</span> : null}
 
-            {a.category?.type === "app" && a.category.app ? (
+           {a.category?.type === "general" ? (
               <>
                 <span>•</span>
-                <span>{a.category.app.name}</span>
+                <span>
+                  {locale === "de"
+                    ? "LaCodea"
+                    : locale === "fr"
+                    ? "LaCodea"
+                    : locale === "es"
+                    ? "LaCodea"
+                    : locale === "it"
+                    ? "LaCodea"
+                    : locale === "ru"
+                    ? "LaCodea"
+                    : locale === "hy"
+                    ? "LaCodea"
+                    : "LaCodea"}
+                </span>
               </>
             ) : null}
 

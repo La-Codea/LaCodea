@@ -32,7 +32,17 @@ export const SIMPLETIME: SiteConfig = {
   defaults: { appSlug: "simpletime" },
 };
 
+export const ORGAONE: SiteConfig = {
+  key: "orgaone",
+  name: "OrgaOne",
+  logoType: "image",
+  logoSrc: "/orgaone/orgaonelogo.png",
+  nav: { showApps: false, showAnnouncements: true },
+  defaults: { appSlug: "orgaone" },
+};
+
 export function getSiteConfig(appSlug?: string | null): SiteConfig {
   if (appSlug === "simpletime") return SIMPLETIME;
+  if (appSlug === "orgaone") return ORGAONE;
   return HUB;
 }

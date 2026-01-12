@@ -25,6 +25,7 @@ type FooterStrings = {
   socialX: string;
   socialInstagram: string;
   socialTikTok: string;
+  socialTelegram: string;
 };
 
 function IconX(props: React.SVGProps<SVGSVGElement>) {
@@ -55,6 +56,14 @@ function IconTikTok(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
       <path d="M21 8.1a7.6 7.6 0 0 1-4.5-1.5v7.4a6.5 6.5 0 1 1-5.6-6.4v3.4a3.2 3.2 0 1 0 2.4 3.1V2h3.2a4.4 4.4 0 0 0 4.5 4.1z" />
+    </svg>
+  );
+}
+
+function IconTelegram(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path d="M21.9 4.6c.2.1.3.4.1 1.2l-3.1 14.6c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.1c-.2.2-.4.4-.8.4l.3-4.9L19 6.7c.4-.4-.1-.6-.6-.3l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5L20 4.1c.8-.3 1.5-.1 1.9.5z" />
     </svg>
   );
 }
@@ -123,9 +132,10 @@ export default function FooterClient({
   const showImageLogo = brandSite.logoType === "image" && !!brandSite.logoSrc;
 
   // TODO: echten WhatsApp Channel Link eintragen
-  const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/xxxxxxxxxxxxxxxxxxxx";
-  const INSTAGRAM_URL = "https://instagram.com";
+  const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/0029Vb7D9bXIt5rnUGZcLu1C";
+  const INSTAGRAM_URL = "https://www.instagram.com/la_codea/";
   const TIKTOK_URL = "https://tiktok.com";
+  const TELEGRAM_URL = "https://t.me/la_codea";
 
   return (
     <footer
@@ -165,28 +175,38 @@ export default function FooterClient({
             <div className="footer-socials">
               {[
                 {
+                  id: "whatsapp",
                   href: WHATSAPP_CHANNEL_URL,
                   label: strings.socialWhatsapp,
                   icon: <IconWhatsApp className="h-5 w-5" />,
                 },
                 {
-                  href: "https://x.com",
+                  id: "x",
+                  href: "https://x.com/LaCodeaa",
                   label: strings.socialX,
                   icon: <IconX className="h-5 w-5" />,
                 },
                 {
+                  id: "instagram",
                   href: INSTAGRAM_URL,
                   label: strings.socialInstagram,
                   icon: <IconInstagram className="h-5 w-5" />,
                 },
                 {
+                  id: "tiktok",
                   href: TIKTOK_URL,
                   label: strings.socialTikTok,
                   icon: <IconTikTok className="h-5 w-5" />,
                 },
+                {
+                  id: "telegram",
+                  href: TELEGRAM_URL,
+                  label: strings.socialTelegram,
+                  icon: <IconTelegram className="h-5 w-5" />,
+                },
               ].map((s) => (
                 <a
-                  key={s.label}
+                  key={s.id}
                   href={s.href}
                   aria-label={s.label}
                   className="footer-social"

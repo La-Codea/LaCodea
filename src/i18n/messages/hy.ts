@@ -105,8 +105,11 @@ const messages = {
   "footer.section.navigation": "Նավիգացիա",
   "footer.section.legal": "Իրավական",
   "footer.bottomline": "Ստեղծված է հոգատարությամբ · Գաղտնիությունը՝ առաջնահերթ",
-  "footer.social.whatsapp": "WhatsApp ալիք",
-  "footer.social.x": "X",
+"footer.social.whatsapp": "WhatsApp ալիք",
+"footer.social.telegram": "Telegram ալիք",
+"footer.social.x": "X (Twitter)",
+"footer.social.instagram": "Instagram",
+"footer.social.tiktok": "TikTok",
 
   "nav.privacy": "Գաղտնիություն",
   "nav.imprint": "Իրավական տեղեկություններ",
@@ -222,7 +225,17 @@ const messages = {
 
   "simpletime.feedback.title": "Հետադարձ կապ",
   "simpletime.feedback.subtitle": "Ասեք մեզ, թե ինչ կարող ենք բարելավել։",
-  "simpletime.feedback.formTitle": "Ուղարկել կարծիք"
+  "simpletime.feedback.formTitle": "Ուղարկել կարծիք",
+
+  "orgaone.support.title": "OrgaOne Աջակցություն",
+"orgaone.support.subtitle": "Ստացեք օգնություն, պատասխաններ հաճախակի հարցերին կամ կապվեք մեզ հետ։",
+
+"orgaone.support.faqTitle": "Հաճախ տրվող հարցեր",
+
+"orgaone.support.contactTitle": "Կապ հաստատել աջակցման հետ",
+"orgaone.support.contactBody": "Եթե չեք գտել պատասխան FAQ-ում, կապվեք մեզ հետ։",
+"orgaone.support.contactCta": "Կապ հաստատել",
+"orgaone.support.contactHint": "Սովորաբար պատասխանում ենք 24 ժամվա ընթացքում։"
 
 
 } as const;

@@ -22,6 +22,7 @@ type FooterStrings = {
   socialX: string;
   socialInstagram: string;
   socialTikTok: string;
+  socialTelegram: string;
 };
 
 export default async function Footer({ site }: { site: SiteConfig }) {
@@ -46,6 +47,7 @@ export default async function Footer({ site }: { site: SiteConfig }) {
     imprint: tt("nav.imprint"),
 
     socialWhatsapp: tt("footer.social.whatsapp"),
+    socialTelegram: tt("footer.social.telegram"),
     socialX: tt("footer.social.x"),
     socialInstagram: tt("footer.social.instagram"),
     socialTikTok: tt("footer.social.tiktok"),

@@ -105,8 +105,11 @@ const messages = {
   "footer.section.navigation": "Навигация",
   "footer.section.legal": "Юридическая информация",
   "footer.bottomline": "Сделано с заботой · Приватность прежде всего",
-  "footer.social.whatsapp": "Канал WhatsApp",
-  "footer.social.x": "X",
+"footer.social.whatsapp": "Канал WhatsApp",
+"footer.social.telegram": "Канал Telegram",
+"footer.social.x": "X (Twitter)",
+"footer.social.instagram": "Instagram",
+"footer.social.tiktok": "TikTok",
 
   "nav.privacy": "Конфиденциальность",
   "nav.imprint": "Юридическая информация",
@@ -221,7 +224,17 @@ const messages = {
 
   "simpletime.feedback.title": "Обратная связь",
   "simpletime.feedback.subtitle": "Расскажите, что мы можем улучшить.",
-  "simpletime.feedback.formTitle": "Отправить отзыв"
+  "simpletime.feedback.formTitle": "Отправить отзыв",
+
+  "orgaone.support.title": "Поддержка OrgaOne",
+"orgaone.support.subtitle": "Получите помощь, ответы на частые вопросы или свяжитесь с нами.",
+
+"orgaone.support.faqTitle": "Часто задаваемые вопросы",
+
+"orgaone.support.contactTitle": "Связаться с поддержкой",
+"orgaone.support.contactBody": "Если вы не нашли ответ в FAQ, свяжитесь с нами.",
+"orgaone.support.contactCta": "Связаться с поддержкой",
+"orgaone.support.contactHint": "Обычно мы отвечаем в течение 24 часов."
 
 
 

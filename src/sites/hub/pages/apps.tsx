@@ -43,13 +43,16 @@ function getBase(locale: Locale) {
   return locale === "en" ? "" : `/${locale}`;
 }
 
-function getAppHref(slug: string) {
+function getAppHref(slug: string, locale: Locale) {
+  const prefix = locale === "en" ? "" : `/${locale}`;
+
   // Dev: subdomain.localhost
   if (process.env.NODE_ENV !== "production") {
-    return `http://${slug}.localhost:3000`;
+    return `http://${slug}.localhost:3000${prefix}`;
   }
+
   const domain = process.env.ROOT_DOMAIN ?? "lacodea.com";
-  return `https://${slug}.${domain}`;
+  return `https://${slug}.${domain}${prefix}`;
 }
 
 export default async function AppsPage({ locale }: { locale: Locale }) {
@@ -82,7 +85,7 @@ export default async function AppsPage({ locale }: { locale: Locale }) {
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {slug && (
-                  <a className="btn btn-primary" href={getAppHref(slug)}>
+                  <a className="btn btn-primary" href={getAppHref(slug, locale)}>
                     {t(locale, "pages.apps.openApp")}
                   </a>
                 )}

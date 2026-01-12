@@ -35,9 +35,15 @@ export default defineType({
       fields: [
         defineField({
           name: "type",
-          title: "Type",
+          title: "Show on",
           type: "string",
-          options: { list: ["general", "app"] },
+          options: {
+            list: [
+              { title: "LaCodea (nur Hub)", value: "general" },
+              { title: "App (Hub + App-Seite)", value: "app" },
+            ],
+            layout: "radio",
+          },
           validation: (r) => r.required(),
         }),
         defineField({
