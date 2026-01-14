@@ -35,34 +35,14 @@ function getPublicBaseUrl(siteKey?: string) {
 export async function generateMetadata(): Promise<Metadata> {
   const site = await resolveSite();
 
-  const hubDescription =
-    "Simple, useful iOS apps — built by LaCodea. We create focused tools with clean design. Privacy-first by default.";
-
-  let title = site.name ?? "LaCodea";
-  let description = hubDescription;
-
-  if (site.key === "simpletime") {
-    title = "SimpleTime";
-    description =
-      "SimpleTime helps you track time effortlessly — privacy-first, fast, and focused.";
-  } else if (site.key === "orgaone") {
-    title = "OrgaOne";
-    description =
-      "OrgaOne helps you stay organized with a focused, privacy-first experience.";
-  } else if (site.key === "hub") {
-    title = "LaCodea";
-    description = hubDescription;
-  }
-
   const baseUrl = getPublicBaseUrl(site.key);
 
-  // Per-site OpenGraph/Twitter image (place files in `/public/og/`)
-  const ogImage =
-    site.key === "simpletime"
-      ? "/og/simpletime.png"
-      : site.key === "orgaone"
-      ? "/og/orgaone.png"
-      : "/og/hub.png";
+  // ✅ Per-site SEO (configured in src/site/config.ts)
+  const title = site.seo?.title ?? site.name ?? "LaCodea";
+  const description =
+    site.seo?.description ??
+    "Simple, useful iOS apps — built by LaCodea. Privacy-first by default.";
+  const ogImage = site.seo?.ogImagePath ?? "/og/hub.png";
 
   return {
     metadataBase: new URL(baseUrl),
@@ -73,6 +53,14 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     alternates: {
       canonical: baseUrl,
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.ico" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     },
     openGraph: {
       type: "website",
