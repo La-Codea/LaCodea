@@ -16,26 +16,13 @@ function readThemeCookie(): "light" | "dark" | null {
 }
 
 function ThemeCookieSync() {
-  const { setTheme, resolvedTheme } = useTheme();
-  const [didInit, setDidInit] = useState(false);
+  const { setTheme } = useTheme();
 
-  // ✅ Beim Laden: Cookie -> next-themes (damit es NICHT auf system/localStorage springt)
   useEffect(() => {
     const cookieTheme = readThemeCookie();
-    if (cookieTheme) {
-      setTheme(cookieTheme);
-    }
-    setDidInit(true);
+    if (cookieTheme) setTheme(cookieTheme);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Optional: wenn next-themes später einen Wert hat, aber Cookie fehlt -> nichts tun.
-  // (Cookie wird bei dir beim Toggle gesetzt, daher reicht das.)
-  useEffect(() => {
-    if (!didInit) return;
-    // Hier könntest du optional cookie nachziehen,
-    // aber da ThemeToggle das bereits setzt, ist es nicht nötig.
-  }, [didInit, resolvedTheme]);
 
   return null;
 }
@@ -46,7 +33,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       attribute="class"
       defaultTheme="system"
       enableSystem
-      disableTransitionOnChange
+      // ❌ disableTransitionOnChange raus, sonst killt next-themes dir die Animation
     >
       <ThemeCookieSync />
       {children}

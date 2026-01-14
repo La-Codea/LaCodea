@@ -4,7 +4,7 @@
 
 .footer {
   border-top: 1px solid rgb(var(--card-border));
-  background: rgb(var(--bg));
+  background-color: rgb(var(--bg));
 }
 
 .footer-grid {
@@ -32,7 +32,7 @@
   justify-content: center;
   border-radius: 1rem;
   border: 1px solid rgb(var(--card-border));
-  background: rgb(var(--card));
+  background-color: rgb(var(--card));
   box-shadow: var(--shadow);
   font-size: 0.75rem;
   font-weight: 800;
@@ -59,7 +59,7 @@
   justify-content: center;
   border-radius: 0.75rem;
   border: 1px solid rgb(var(--card-border));
-  background: rgb(var(--card));
+  background-color: rgb(var(--card));
   box-shadow: var(--shadow);
   transition: transform .15s ease, box-shadow .15s ease;
 }
@@ -134,4 +134,69 @@
 
 .footer-inner {
   padding: 4rem 0;
+}
+
+/* =========================
+   Theme transition overrides (footer)
+   MUST be at the end of this file because footer.css is loaded after globals.css
+
+   Goal: keep theme switch smooth.
+   - Avoid `* { transition: ... }` inside footer (can cause janky re-style work)
+   - Avoid mixing footer reveal (opacity/transform) with theme transition
+========================= */
+
+/* Footer surface */
+html.theme-transition .footer {
+  will-change: background-color, border-color, box-shadow;
+  transition-property: background-color, border-color, box-shadow !important;
+  transition-duration: var(--theme-transition-ms) !important;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  transition-delay: var(--theme-bg-delay, 0ms) !important;
+}
+
+/* Text + links */
+html.theme-transition .footer,
+html.theme-transition .footer-title,
+html.theme-transition .footer-tagline,
+html.theme-transition .footer-links a,
+html.theme-transition .footer-bottom,
+html.theme-transition .footer-bottom * {
+  will-change: color;
+  transition-property: color !important;
+  transition-duration: var(--theme-transition-ms) !important;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  transition-delay: var(--theme-fg-delay, 0ms) !important;
+}
+
+/* Footer cards / buttons */
+html.theme-transition .footer .footer-logo,
+html.theme-transition .footer .footer-social {
+  will-change: background-color, border-color, box-shadow;
+  transition-property: background-color, border-color, box-shadow, color, fill, stroke !important;
+  transition-duration: var(--theme-transition-ms) !important;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  transition-delay: var(--theme-bg-delay, 0ms) !important;
+}
+
+/* Icons (SVG) */
+html.theme-transition .footer svg,
+html.theme-transition .footer svg * {
+  will-change: fill, stroke;
+  transition-property: fill, stroke !important;
+  transition-duration: var(--theme-transition-ms) !important;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  transition-delay: var(--theme-fg-delay, 0ms) !important;
+}
+
+/* IMPORTANT:
+   Footer reveal animation can fight with theme transitions.
+   During a theme switch we keep the reveal in its current state (no extra opacity/transform transitions),
+   but still allow color/background transitions above to run.
+*/
+html.theme-transition .footer-reveal,
+html.theme-transition .footer-reveal.is-visible {
+  transition-property: background-color, border-color, box-shadow, color, fill, stroke !important;
+  transition-duration: var(--theme-transition-ms) !important;
+  transition-timing-function: cubic-bezier(.2,.8,.2,1) !important;
+  transition-delay: 0ms !important;
 }

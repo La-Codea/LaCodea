@@ -11,6 +11,11 @@
   --card-border: 228 228 231;
   --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.06);
   color-scheme: light dark;
+
+  /* Used by ThemeToggle + transition helpers */
+  --theme-transition-ms: 900ms;
+  --theme-bg-delay: 0ms;
+  --theme-fg-delay: 0ms;
 }
 
 html.dark{
@@ -140,4 +145,103 @@ html.dark .input:focus{
   font-weight: 600;
   margin-bottom: .35rem;
   display: inline-block;
+}
+
+
+/* =========================
+   Smooth theme transitions (background + text together)
+   (keep at the very end to override component transitions)
+========================= */
+
+html.theme-transition body{
+  transition:
+    background-color var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    color            var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms !important;
+}
+
+html.theme-transition .card,
+html.theme-transition .btn,
+html.theme-transition .input,
+html.theme-transition .navbar-shell,
+html.theme-transition .footer,
+html.theme-transition .footer-social,
+html.theme-transition .nav-pill,
+html.theme-transition .lang-dd__btn,
+html.theme-transition .lang-dd__menu,
+html.theme-transition .lang-dd__item{
+  transition:
+    background-color var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    border-color     var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    box-shadow       var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    color            var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    fill             var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    stroke           var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms !important;
+}
+
+/* Smooth text without the heavy "*" selector (prevents choppy repaints) */
+html.theme-transition body,
+html.theme-transition p,
+html.theme-transition span,
+html.theme-transition a,
+html.theme-transition h1,
+html.theme-transition h2,
+html.theme-transition h3,
+html.theme-transition h4,
+html.theme-transition h5,
+html.theme-transition h6,
+html.theme-transition li,
+html.theme-transition small,
+html.theme-transition strong,
+html.theme-transition em,
+html.theme-transition .muted{
+  transition: color var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms !important;
+}
+
+/* SVG icons (Navbar/Footer) */
+html.theme-transition svg,
+html.theme-transition svg *{
+  transition:
+    fill   var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms,
+    stroke var(--theme-transition-ms) cubic-bezier(.2,.8,.2,1) 0ms !important;
+}
+
+/* Give the browser a hint during the switch */
+html.theme-transition body,
+html.theme-transition .navbar-shell,
+html.theme-transition .footer{
+  will-change: background-color, color;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  html.theme-transition body,
+  html.theme-transition .card,
+  html.theme-transition .btn,
+  html.theme-transition .input,
+  html.theme-transition .navbar-shell,
+  html.theme-transition .footer,
+  html.theme-transition .footer-social,
+  html.theme-transition .nav-pill,
+  html.theme-transition .lang-dd__btn,
+  html.theme-transition .lang-dd__menu,
+  html.theme-transition .lang-dd__item,
+  html.theme-transition p,
+  html.theme-transition span,
+  html.theme-transition a,
+  html.theme-transition h1,
+  html.theme-transition h2,
+  html.theme-transition h3,
+  html.theme-transition h4,
+  html.theme-transition h5,
+  html.theme-transition h6,
+  html.theme-transition li,
+  html.theme-transition small,
+  html.theme-transition strong,
+  html.theme-transition em,
+  html.theme-transition .muted,
+  html.theme-transition svg,
+  html.theme-transition svg *{
+    transition: none !important;
+    animation: none !important;
+  }
 }

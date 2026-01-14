@@ -45,7 +45,7 @@ export default function Navbar({ site }: { site: SiteConfig }) {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="navbar-shell border-b border-[rgb(var(--card-border))] bg-[rgb(var(--bg))]/70 backdrop-blur">
+      <div className="navbar-shell border-b border-[rgb(var(--card-border))] bg-[rgb(var(--card))]/70 backdrop-blur">
         <div className="container flex items-center justify-between navbar-pad">
           <Link href={homeHref} className="flex items-center gap-3 font-semibold tracking-tight">
             <span className="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl border border-[rgb(var(--card-border))] bg-[rgb(var(--card))] shadow-sm">
