@@ -44,6 +44,14 @@ export async function generateMetadata(): Promise<Metadata> {
     "Simple, useful iOS apps — built by LaCodea. Privacy-first by default.";
   const ogImage = site.seo?.ogImagePath ?? "/og/hub.png";
 
+  // ✅ iOS Smart App Banner (only for app subdomains that have an App Store id)
+  // Shows Safari's native banner on iPhone/iPad.
+  const appStoreId = site.seo?.appStoreId;
+  const appStoreUrl = site.seo?.appStoreUrl;
+  const appleItunesApp = appStoreId
+    ? `app-id=${appStoreId}${appStoreUrl ? `, app-argument=${appStoreUrl}` : ""}`
+    : null;
+
   return {
     metadataBase: new URL(baseUrl),
     title: {
@@ -87,6 +95,13 @@ export async function generateMetadata(): Promise<Metadata> {
       index: true,
       follow: true,
     },
+
+    // Custom meta tags
+    other: appleItunesApp
+      ? {
+          "apple-itunes-app": appleItunesApp,
+        }
+      : undefined,
   };
 }
 
