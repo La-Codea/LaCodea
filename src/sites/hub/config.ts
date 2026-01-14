@@ -1,15 +1,19 @@
 import type { SiteConfig } from "@/site/config";
 
-export const hubConfig: SiteConfig = {
-  key: "hub",
-  name: "LaCodea",
-  logoType: "text",
-  nav: { showApps: true, showAnnouncements: true },
-  defaults: {},
+export const simpletimeConfig: SiteConfig = {
+  key: "simpletime",
+  name: "SimpleTime",
+  logoType: "image",
+  logoSrc: "/simpletime/simpletimelogo.png",
+  nav: { showApps: false, showAnnouncements: true },
+  defaults: { appSlug: "simpletime" },
+
   seo: {
-    title: "LaCodea",
+    title: "SimpleTime",
     description:
-      "Simple, useful iOS apps — built by LaCodea. Privacy-first by default. No accounts needed.",
-    ogImagePath: "/og/hub.png",
+      "SimpleTime helps you track time and stay focused — fast, private, and offline-friendly.",
+    ogImagePath: "/og/simpletime.png",
+    appStoreId: "6755532037",
+    appStoreUrl: "https://apps.apple.com/app/id6755532037",
   },
 };
